@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MW2 / IW4x Class Editor</title>
+    <meta
+      name="description"
+      content="Web-based custom class editor for Call of Duty: Modern Warfare 2 (IW4x). Generate setPlayerData commands, import from console logs, and export .cfg files."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <!-- ===================== HEADER ===================== -->
+      <header class="header" role="banner">
+        <div class="header-main">
+          <h1>CREATE A CLASS</h1>
+          <p>MW2 / IW4x Custom Class Editor</p>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-gold btn-sm" onclick="view.showExportModal()">
+            📜 Export GSC
+          </button>
+        </div>
+      </header>
+
+      <!-- ===================== IMPORT SECTION ===================== -->
+      <div class="import-section">
+        <button
+          class="import-toggle-btn"
+          id="importToggleBtn"
+          onclick="toggleImportPanel()"
+          aria-expanded="false"
+          aria-controls="importPanel"
+        >
+          📥 Import from Console Log
+        </button>
+
+        <div class="import-panel" id="importPanel">
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept=".log,.txt,.cfg" />
+            <div class="drop-zone-icon">📄</div>
+            <div class="drop-zone-title">Drop console_mp.log here</div>
+            <div class="drop-zone-subtitle">
+              or click to browse · Run <code>/dumpPlayerData</code> in-game
+              first
+            </div>
+          </div>
+
+          <div class="paste-section">
+            <label>Or paste log contents directly:</label>
+            <textarea
+              class="paste-area"
+              id="pasteArea"
+              placeholder="Paste your console_mp.log contents here..."
+            ></textarea>
+            <div class="import-actions">
+              <button
+                class="btn btn-primary btn-sm"
+                onclick="importFromPaste()"
+              >
+                📋 Import from Paste
+              </button>
+            </div>
+          </div>
+
+          <div class="import-result" id="importResult"></div>
+        </div>
+      </div>
+
+      <!-- ===================== CLASS TABS ===================== -->
+      <nav
+        class="class-tabs"
+        id="classTabs"
+        role="tablist"
+        aria-label="Class selection"
+      ></nav>
+
+      <!-- ===================== QUICK ACTIONS ===================== -->
+      <div class="quick-actions">
+        <button class="btn btn-outline" onclick="resetCurrentClass()">
+          ↺ Reset Current
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="resetAllClasses()">
+          Reset All
+        </button>
+        <button class="btn btn-outline" onclick="generateUnlockAll()">
+          🔓 Unlock All Stats
+        </button>
+      </div>
+
+      <!-- ===================== LOADOUT ===================== -->
+      <div class="loadout" id="loadout">
+        <!-- Class Name -->
+        <div class="loadout-section">
+          <div class="section-label">CLASS NAME</div>
+          <div class="class-name-row">
+            <input
+              type="text"
+              id="className"
+              placeholder="Custom Class 1"
+              maxlength="24"
+              oninput="onFieldChange()"
+            />
+            <div class="color-preview" id="colorPreview">
+              <span class="color-hint">Type a name to preview colors...</span>
+            </div>
+            <p class="color-codes-info">
+              ^0 Black · ^1 Red · ^2 Green · ^3 Yellow · ^4 Blue · ^5 Cyan · ^6
+              Pink · ^7 White
+            </p>
+          </div>
+        </div>
+
+        <!-- Primary Weapon -->
+        <div class="loadout-section">
+          <div class="section-label">PRIMARY WEAPON</div>
+          <div class="loadout-slot" id="slotPrimary">
+            <img
+              class="slot-icon weapon-icon"
+              id="primaryWeaponIcon"
+              src=""
+              alt=""
+            />
+            <div class="slot-details">
+              <select id="primaryWeapon" onchange="onFieldChange()"></select>
+              <div class="slot-sub-row">
+                <div class="sub-field">
+                  <label>Attachment 1</label>
+                  <select
+                    id="primaryAttach1"
+                    onchange="onFieldChange()"
+                  ></select>
+                </div>
+                <div class="sub-field">
+                  <label
+                    >Attachment 2 <span class="req-perk">(Bling)</span></label
+                  >
+                  <select
+                    id="primaryAttach2"
+                    onchange="onFieldChange()"
+                  ></select>
+                </div>
+                <div class="sub-field">
+                  <label>Camo</label>
+                  <select id="primaryCamo" onchange="onFieldChange()"></select>
+                </div>
+              </div>
+              <!-- Weapon Stats -->
+              <div class="weapon-stats-container" id="primaryStats"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Weapon -->
+        <div class="loadout-section">
+          <div class="section-label">SECONDARY WEAPON</div>
+          <div class="loadout-slot" id="slotSecondary">
+            <img
+              class="slot-icon weapon-icon"
+              id="secondaryWeaponIcon"
+              src=""
+              alt=""
+            />
+            <div class="slot-details">
+              <select id="secondaryWeapon" onchange="onFieldChange()"></select>
+              <div class="slot-sub-row">
+                <div class="sub-field">
+                  <label>Attachment 1</label>
+                  <select
+                    id="secondaryAttach1"
+                    onchange="onFieldChange()"
+                  ></select>
+                </div>
+                <div class="sub-field">
+                  <label
+                    >Attachment 2
+                    <span class="req-perk">(Bling Pro)</span></label
+                  >
+                  <select
+                    id="secondaryAttach2"
+                    onchange="onFieldChange()"
+                  ></select>
+                </div>
+                <div class="sub-field">
+                  <label>Camo</label>
+                  <select
+                    id="secondaryCamo"
+                    onchange="onFieldChange()"
+                  ></select>
+                </div>
+              </div>
+              <!-- Weapon Stats -->
+              <div class="weapon-stats-container" id="secondaryStats"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Equipment & Tactical -->
+        <div class="loadout-section equipment-row">
+          <div class="equip-col">
+            <div class="section-label">EQUIPMENT</div>
+            <div class="loadout-slot compact">
+              <img
+                class="slot-icon equip-icon"
+                id="equipmentIcon"
+                src=""
+                alt=""
+              />
+              <select id="equipment" onchange="onFieldChange()"></select>
+            </div>
+          </div>
+          <div class="equip-col">
+            <div class="section-label">TACTICAL</div>
+            <div class="loadout-slot compact">
+              <img
+                class="slot-icon equip-icon"
+                id="tacticalIcon"
+                src=""
+                alt=""
+              />
+              <select id="specialGrenade" onchange="onFieldChange()"></select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Perks -->
+        <div class="loadout-section">
+          <div class="section-label">PERKS</div>
+          <div class="perks-row">
+            <div class="perk-slot" data-tier="1">
+              <img class="perk-icon" id="perk1Icon" src="" alt="" />
+              <div class="perk-info">
+                <span class="perk-tier-label">Perk 1</span>
+                <select id="perk1" onchange="onFieldChange()"></select>
+              </div>
+            </div>
+            <div class="perk-slot" data-tier="2">
+              <img class="perk-icon" id="perk2Icon" src="" alt="" />
+              <div class="perk-info">
+                <span class="perk-tier-label">Perk 2</span>
+                <select id="perk2" onchange="onFieldChange()"></select>
+              </div>
+            </div>
+            <div class="perk-slot" data-tier="3">
+              <img class="perk-icon" id="perk3Icon" src="" alt="" />
+              <div class="perk-info">
+                <span class="perk-tier-label">Perk 3</span>
+                <select id="perk3" onchange="onFieldChange()"></select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deathstreak -->
+        <div class="loadout-section">
+          <div class="section-label">DEATHSTREAK</div>
+          <div class="loadout-slot compact">
+            <img
+              class="slot-icon equip-icon"
+              id="deathstreakIcon"
+              src=""
+              alt=""
+            />
+            <select id="deathstreak" onchange="onFieldChange()"></select>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== OUTPUT ===================== -->
+      <div class="output-section">
+        <div class="output-header">
+          <h3>📋 COMMAND OUTPUT</h3>
+          <div class="btn-group">
+            <button class="btn btn-primary btn-sm" onclick="copyCommands()">
+              📋 Copy
+            </button>
+            <button
+              class="btn btn-success btn-sm"
+              onclick="downloadCfg('current')"
+            >
+              ⬇ Download .cfg
+            </button>
+            <button class="btn btn-gold btn-sm" onclick="downloadCfg('all')">
+              ⬇ All Classes .cfg
+            </button>
+          </div>
+        </div>
+
+        <div class="output-modes">
+          <button
+            class="output-mode-btn active"
+            data-mode="current"
+            onclick="setOutputMode('current')"
+          >
+            Current Class
+          </button>
+          <button
+            class="output-mode-btn"
+            data-mode="all"
+            onclick="setOutputMode('all')"
+          >
+            All 15 Classes
+          </button>
+        </div>
+
+        <div class="output-box" id="output">
+          Select a class and configure your loadout...
+        </div>
+
+        <details>
+          <summary class="readable-toggle">▸ One command per line</summary>
+          <div
+            class="output-box muted"
+            id="outputReadable"
+            style="margin-top: 8px"
+          ></div>
+        </details>
+
+        <div class="export-info">
+          <strong>Console:</strong> Copy & paste into IW4x console
+          (<code>~</code>).<br />
+          <strong>Multiple classes:</strong> Download <code>.cfg</code> → save
+          to <code>&lt;IW4x&gt;/main/</code> → run
+          <code>/exec classes.cfg</code>.
+        </div>
+
+        <!-- Experimental Mode -->
+        <details
+          class="experimental-panel"
+          style="
+            margin-top: 20px;
+            border-top: 1px dotted var(--color-text-muted);
+            padding-top: 10px;
+          "
+        >
+          <summary
+            style="
+              font-size: 0.7rem;
+              color: var(--color-text-muted);
+              cursor: pointer;
+            "
+          >
+            🛠 Developer / Experimental Mode
+          </summary>
+          <div
+            style="
+              font-size: 0.7rem;
+              margin-top: 8px;
+              color: var(--color-text-dim);
+            "
+          >
+            Open console (F12) and type <code>window.MW2_RELOAD_UI()</code> to
+            refresh display after manual <code>classes</code> object edits.
+            <br />You can also edit <code>:root</code> variables in
+            <code>styles.css</code> for instant theme changes.
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- GSC Export Modal -->
+    <div class="modal-overlay" id="exportModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>GSC SCRIPT EXPORT</h3>
+          <button class="btn btn-outline btn-sm" onclick="view.hideExportModal()">✕</button>
+        </div>
+        <div class="modal-body">
+          <p style="margin-bottom: 10px; font-size: 0.8rem; color: var(--color-text-dim);">
+            Copy this script into your mod to initialize these classes automatically for players.
+          </p>
+          <textarea class="modal-code-area" id="exportCode" readonly></textarea>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" onclick="view.copyExportCode()">📋 Copy Code</button>
+          <button class="btn btn-outline" onclick="view.hideExportModal()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Scripts -->
+    <script src="js/data.js"></script>
+    <script src="js/utils/utils.js"></script>
+    <script src="js/core/store.js"></script>
+    <script src="js/core/exporter.js"></script>
+    <script src="js/ui/view.js"></script>
+
+    <script src="js/parser.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
+

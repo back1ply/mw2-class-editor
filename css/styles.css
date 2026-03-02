@@ -1,0 +1,980 @@
+/* =====================================================
+   MW2 / IW4x Class Editor — Create-a-Class Theme
+   Dark military aesthetic with loadout slot design
+   ===================================================== */
+
+:root {
+  /* =====================================================
+     DESIGN TOKENS (Modify these for easy UI experiments)
+     ===================================================== */
+
+  /* Colors - Core */
+  --color-bg-app: #0d0f12;
+  --color-bg-panel: #141820;
+  --color-bg-card: rgba(20, 24, 32, 0.85);
+  --color-bg-slot: rgba(24, 30, 40, 0.9);
+  --color-bg-slot-hover: rgba(30, 38, 50, 0.95);
+  --color-bg-input: rgba(12, 14, 18, 0.7);
+
+  /* Colors - Text */
+  --color-text-main: #e8eaf0;
+  --color-text-dim: #9aa3b8;
+  --color-text-muted: #6b7280; /* Increased contrast from #576175 */
+  --color-text-disabled: #4b5563;
+
+  /* Colors - Accents */
+  --color-accent: #4a8cff;
+  --color-accent-glow: rgba(74, 140, 255, 0.2);
+  --color-accent-strong: #60a5fa;
+
+  --color-gold: #d4a843;
+  --color-gold-bright: #edc35e;
+  --color-gold-glow: rgba(212, 168, 67, 0.3);
+
+  --color-success: #34d058;
+  --color-success-dim: #1a8c38;
+  --color-danger: #f85149;
+
+  /* Spacing & Layout */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 20px;
+  --space-xl: 32px;
+
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  /* Effects */
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --transition-speed: 0.2s;
+  --transition-func: ease;
+
+  /* Legacy compatibility (Mapping old vars to new tokens) */
+  --bg-primary: var(--color-bg-app);
+  --bg-secondary: var(--color-bg-panel);
+  --bg-card: var(--color-bg-card);
+  --bg-slot: var(--color-bg-slot);
+  --text-primary: var(--color-text-main);
+  --text-secondary: var(--color-text-dim);
+  --text-muted: var(--color-text-muted);
+  --accent: var(--color-accent);
+  --gold: var(--color-gold);
+  --success: var(--color-success);
+  --danger: var(--color-danger);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Rajdhani", sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Background texture */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 20% 0%,
+      rgba(74, 140, 255, 0.04) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 80% 100%,
+      rgba(212, 168, 67, 0.03) 0%,
+      transparent 60%
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Scanline overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+.header {
+  text-align: center;
+  padding: 28px 0 20px;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-hover),
+    transparent
+  );
+}
+
+.header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  text-shadow: 0 0 40px var(--accent-glow);
+}
+
+.header p {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* =====================================================
+   IMPORT SECTION
+   ===================================================== */
+
+.import-section {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.import-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+.import-toggle-btn:hover {
+  border-color: var(--border-hover);
+  color: var(--text-primary);
+}
+.import-toggle-btn.active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.import-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  margin-top: 12px;
+}
+.import-panel.visible {
+  max-height: 600px;
+}
+
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-md);
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--transition-normal);
+  margin-bottom: 12px;
+}
+.drop-zone:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+.drop-zone.drag-over {
+  border-color: var(--accent);
+  background: rgba(74, 140, 255, 0.05);
+}
+.drop-zone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.drop-zone-icon {
+  font-size: 2rem;
+  margin-bottom: 6px;
+  opacity: 0.5;
+}
+.drop-zone-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.drop-zone-subtitle {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+.drop-zone-subtitle code {
+  color: var(--accent);
+}
+
+.paste-section {
+  margin-bottom: 12px;
+}
+.paste-section label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.paste-area {
+  width: 100%;
+  height: 80px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.72rem;
+  padding: 10px;
+  resize: vertical;
+}
+.paste-area:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.import-actions {
+  margin-top: 8px;
+}
+
+.import-result {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: none;
+  margin-top: 8px;
+}
+.import-result.success {
+  display: block;
+  background: var(--success-glow);
+  border: 1px solid var(--success-dim);
+  color: var(--success);
+}
+.import-result.error {
+  display: block;
+  background: var(--danger-glow);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+
+/* =====================================================
+   CLASS TABS
+   ===================================================== */
+
+.class-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.class-tab {
+  flex: 1;
+  min-width: 40px;
+  padding: 8px 4px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+.class-tab:hover {
+  border-color: var(--border-hover);
+  color: var(--text-secondary);
+}
+.class-tab.active {
+  background: var(--bg-slot);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 2px 12px var(--accent-glow);
+}
+
+/* =====================================================
+   QUICK ACTIONS
+   ===================================================== */
+
+.quick-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* =====================================================
+   LOADOUT SLOTS — The core MW2-style layout
+   ===================================================== */
+
+.loadout {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 24px;
+}
+
+.loadout-section {
+  background: var(--bg-slot);
+  border: 1px solid var(--border-slot);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  transition: border-color var(--transition-fast);
+}
+.loadout-section:hover {
+  border-color: var(--border-hover);
+}
+
+.section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+/* Weapon slot: icon + details side by side */
+.loadout-slot {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.loadout-slot.compact {
+  align-items: center;
+  gap: 12px;
+}
+
+.slot-icon {
+  flex-shrink: 0;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.85;
+  transition: opacity var(--transition-fast);
+}
+.slot-icon:hover {
+  opacity: 1;
+}
+
+.weapon-icon {
+  width: 140px;
+  height: 50px;
+}
+.equip-icon {
+  width: 36px;
+  height: 36px;
+}
+
+.slot-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.slot-sub-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.sub-field label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.req-perk {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Equipment & Tactical side by side */
+.equipment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+.equipment-row:hover {
+  border-color: transparent;
+}
+.equip-col {
+  background: var(--bg-slot);
+  border: 1px solid var(--border-slot);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  transition: border-color var(--transition-fast);
+}
+.equip-col:hover {
+  border-color: var(--border-hover);
+}
+
+/* =====================================================
+   PERKS ROW — Three icons side by side with tier colors
+   ===================================================== */
+
+.perks-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+.perk-slot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(12, 14, 18, 0.4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  transition: all var(--transition-normal);
+}
+.perk-slot:hover {
+  border-color: var(--border-hover);
+}
+
+/* Tier-colored left border */
+.perk-slot[data-tier="1"] {
+  border-left: 3px solid var(--perk1-color);
+}
+.perk-slot[data-tier="2"] {
+  border-left: 3px solid var(--perk2-color);
+}
+.perk-slot[data-tier="3"] {
+  border-left: 3px solid var(--perk3-color);
+}
+
+.perk-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  flex-shrink: 0;
+  transition: box-shadow var(--transition-normal);
+}
+
+/* Pro perk gold glow */
+.perk-icon.pro {
+  box-shadow:
+    0 0 10px var(--perk-pro-glow),
+    inset 0 0 6px rgba(212, 168, 67, 0.15);
+  border: 1px solid var(--gold);
+}
+
+.perk-info {
+  flex: 1;
+  min-width: 0;
+}
+.perk-tier-label {
+  display: block;
+  font-size: 0.62rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2px;
+}
+.perk-slot[data-tier="1"] .perk-tier-label {
+  color: var(--perk1-color);
+}
+.perk-slot[data-tier="2"] .perk-tier-label {
+  color: var(--perk2-color);
+}
+.perk-slot[data-tier="3"] .perk-tier-label {
+  color: var(--perk3-color);
+}
+
+/* =====================================================
+   CLASS NAME
+   ===================================================== */
+
+.class-name-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.color-preview {
+  padding: 6px 12px;
+  background: var(--bg-input);
+  border-radius: var(--radius-sm);
+  min-height: 28px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+.color-hint {
+  color: var(--text-dim);
+  font-style: italic;
+  font-size: 0.8rem;
+  font-weight: 400;
+}
+
+.color-codes-info {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: "Roboto Mono", monospace;
+}
+
+/* =====================================================
+   FORM ELEMENTS
+   ===================================================== */
+
+select,
+input[type="text"] {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: "Rajdhani", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: border-color var(--transition-fast);
+}
+
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg fill='%239aa3b8' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 14px;
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+select:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+select option {
+  background: var(--bg-card-solid);
+  color: var(--text-primary);
+}
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+}
+.btn-sm {
+  padding: 6px 12px;
+  font-size: 0.72rem;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #5a9cff;
+  box-shadow: 0 2px 12px var(--accent-glow-strong);
+}
+
+.btn-gold {
+  background: var(--gold);
+  color: #000;
+}
+.btn-gold:hover {
+  background: var(--gold-bright);
+  box-shadow: 0 2px 12px var(--gold-glow);
+}
+
+.btn-success {
+  background: var(--success-dim);
+  color: #fff;
+}
+.btn-success:hover {
+  background: var(--success);
+  box-shadow: 0 2px 12px var(--success-glow);
+}
+
+.btn-danger {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+}
+.btn-danger:hover {
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.btn-outline:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.btn-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* =====================================================
+   OUTPUT SECTION
+   ===================================================== */
+
+.output-section {
+  background: var(--bg-slot);
+  border: 1px solid var(--border-slot);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.output-header h3 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.output-box {
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.7rem;
+  line-height: 1.8;
+  color: var(--success);
+  word-break: break-all;
+  white-space: pre-wrap;
+  max-height: 250px;
+  overflow-y: auto;
+}
+.output-box.muted {
+  color: var(--text-secondary);
+}
+
+.output-modes {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+}
+.output-mode-btn {
+  flex: 1;
+  padding: 6px 12px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.output-mode-btn:hover {
+  color: var(--text-secondary);
+}
+.output-mode-btn.active {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.readable-toggle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px 0;
+  margin-top: 8px;
+}
+
+.export-info {
+  margin-top: 12px;
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+.export-info code {
+  color: var(--accent);
+  font-size: 0.68rem;
+}
+.export-info strong {
+  color: var(--text-muted);
+}
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+
+.toast {
+  position: fixed;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 24px;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  z-index: 9999;
+  transition: bottom 0.3s ease;
+  backdrop-filter: blur(12px);
+}
+.toast.show {
+  bottom: 24px;
+}
+.toast.success {
+  background: rgba(26, 140, 56, 0.9);
+  color: #fff;
+}
+.toast.error {
+  background: rgba(248, 81, 73, 0.9);
+  color: #fff;
+}
+.toast.info {
+  background: rgba(74, 140, 255, 0.9);
+  color: #fff;
+}
+
+/* =====================================================
+   IMAGE FALLBACK — hide broken images gracefully
+   ===================================================== */
+.slot-icon[src=""],
+.perk-icon[src=""],
+.slot-icon:not([src]),
+.perk-icon:not([src]) {
+  visibility: hidden;
+  width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+/* ===================== WEAPON STATS ===================== */
+.weapon-stats-container {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 15px;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  font-size: 0.7rem;
+}
+
+.stat-row {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+  letter-spacing: 0.5px;
+}
+
+.stat-bar-outer {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stat-bar-inner {
+  height: 100%;
+  background: var(--color-accent);
+  box-shadow: 0 0 10px var(--color-accent);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===================== MODAL ===================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--color-bg-panel);
+  border: 1px solid var(--color-border);
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  transform: translateY(20px);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.modal-code-area {
+  width: 100%;
+  height: 300px;
+  background: #0a0a0a;
+  color: #00ff00;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.85rem;
+  padding: 15px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  resize: none;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 12px 12px 48px;
+  }
+  .header h1 {
+    font-size: 1.3rem;
+    letter-spacing: 3px;
+  }
+  .perks-row {
+    grid-template-columns: 1fr;
+  }
+  .equipment-row {
+    grid-template-columns: 1fr;
+  }
+  .slot-sub-row {
+    grid-template-columns: 1fr;
+  }
+  .weapon-icon {
+    width: 100px;
+    height: 36px;
+  }
+  .output-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

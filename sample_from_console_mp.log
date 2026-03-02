@@ -1,0 +1,362 @@
+
+[  18215383]     customClasses
+[  18215383]       [0]
+[  18215383]         _deathstreak	= specialty_null
+[  18215383]         inUse	= true
+[  18215383]         name	= "THE NOOB2"
+[  18215383]         perks
+[  18215383]           [0]	= frag_grenade_mp
+[  18215383]           [1]	= specialty_scavenger
+[  18215383]           [2]	= specialty_coldblooded
+[  18215383]           [3]	= specialty_heartbreaker
+[  18215383]           [4]	= specialty_combathigh
+[  18215383]         specialGrenade	= concussion_grenade
+[  18215383]         weaponSetups
+[  18215383]           [0]
+[  18215383]             attachment
+[  18215383]               [0]	= silencer
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= ump45
+[  18215383]           [1]
+[  18215383]             attachment
+[  18215383]               [0]	= silencer
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= beretta393
+[  18215383]       [1]
+[  18215383]         _deathstreak	= specialty_null
+[  18215383]         inUse	= true
+[  18215383]         name	= "UMP Tryhard"
+[  18215383]         perks
+[  18215383]           [0]	= frag_grenade_mp
+[  18215383]           [1]	= specialty_scavenger
+[  18215383]           [2]	= specialty_bulletdamage
+[  18215383]           [3]	= specialty_heartbreaker
+[  18215383]           [4]	= specialty_combathigh
+[  18215383]         specialGrenade	= concussion_grenade
+[  18215383]         weaponSetups
+[  18215383]           [0]
+[  18215383]             attachment
+[  18215383]               [0]	= fmj
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= ump45
+[  18215383]           [1]
+[  18215383]             attachment
+[  18215383]               [0]	= silencer
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= deserteaglegold
+[  18215383]       [2]
+[  18215383]         _deathstreak	= specialty_null
+[  18215383]         inUse	= true
+[  18215383]         name	= "UMP Rush"
+[  18215383]         perks
+[  18215383]           [0]	= semtex_mp
+[  18215383]           [1]	= specialty_marathon
+[  18215383]           [2]	= specialty_lightweight
+[  18215383]           [3]	= specialty_heartbreaker
+[  18215383]           [4]	= specialty_combathigh
+[  18215383]         specialGrenade	= flash_grenade
+[  18215383]         weaponSetups
+[  18215383]           [0]
+[  18215383]             attachment
+[  18215383]               [0]	= fmj
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= ump45
+[  18215383]           [1]
+[  18215383]             attachment
+[  18215383]               [0]	= tactical
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= coltanaconda
+[  18215383]       [3]
+[  18215383]         _deathstreak	= specialty_null
+[  18215383]         inUse	= true
+[  18215383]         name	= "^2FAL Ninja"
+[  18215383]         perks
+[  18215383]           [0]	= frag_grenade_mp
+[  18215383]           [1]	= specialty_onemanarmy
+[  18215383]           [2]	= specialty_coldblooded
+[  18215383]           [3]	= specialty_heartbreaker
+[  18215383]           [4]	= specialty_grenadepulldeath
+[  18215383]         specialGrenade	= flash_grenade
+[  18215383]         weaponSetups
+[  18215383]           [0]
+[  18215383]             attachment
+[  18215383]               [0]	= silencer
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= fal
+[  18215383]           [1]
+[  18215383]             attachment
+[  18215383]               [0]	= none
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= onemanarmy
+[  18215383]       [4]
+[  18215383]         _deathstreak	= specialty_null
+[  18215383]         inUse	= true
+[  18215383]         name	= "^1Cancer Riot"
+[  18215383]         perks
+[  18215383]           [0]	= throwingknife_mp
+[  18215383]           [1]	= specialty_marathon
+[  18215383]           [2]	= specialty_coldblooded
+[  18215383]           [3]	= specialty_heartbreaker
+[  18215383]           [4]	= specialty_grenadepulldeath
+[  18215383]         specialGrenade	= concussion_grenade
+[  18215383]         weaponSetups
+[  18215383]           [0]
+[  18215383]             attachment
+[  18215383]               [0]	= none
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= riotshield
+[  18215383]           [1]
+[  18215383]             attachment
+[  18215383]               [0]	= tactical
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= coltanaconda
+[  18215383]       [5]
+[  18215383]         _deathstreak	= specialty_null
+[  18215383]         inUse	= true
+[  18215383]         name	= "^1Cancer Loud"
+[  18215383]         perks
+[  18215383]           [0]	= semtex_mp
+[  18215383]           [1]	= specialty_fastreload
+[  18215383]           [2]	= specialty_bulletdamage
+[  18215383]           [3]	= specialty_bulletaccuracy
+[  18215383]           [4]	= specialty_finalstand
+[  18215383]         specialGrenade	= concussion_grenade
+[  18215383]         weaponSetups
+[  18215383]           [0]
+[  18215383]             attachment
+[  18215383]               [0]	= acog
+[  18215383]               [1]	= none
+[  18215383]             camo	= desert
+[  18215383]             weapon	= famas
+[  18215383]           [1]
+[  18215383]             attachment
+[  18215383]               [0]	= grip
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= spas12
+[  18215383]       [6]
+[  18215383]         _deathstreak	= specialty_null
+[  18215383]         inUse	= true
+[  18215383]         name	= "^1Cancer Ninja"
+[  18215383]         perks
+[  18215383]           [0]	= claymore_mp
+[  18215383]           [1]	= specialty_onemanarmy
+[  18215383]           [2]	= specialty_coldblooded
+[  18215383]           [3]	= specialty_heartbreaker
+[  18215383]           [4]	= specialty_combathigh
+[  18215383]         specialGrenade	= smoke_grenade
+[  18215383]         weaponSetups
+[  18215383]           [0]
+[  18215383]             attachment
+[  18215383]               [0]	= silencer
+[  18215383]               [1]	= none
+[  18215383]             camo	= none
+[  18215383]             weapon	= famas
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= none
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= onemanarmy
+[  18215384]       [7]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "^1Cancer Noob"
+[  18215384]         perks
+[  18215384]           [0]	= frag_grenade_mp
+[  18215384]           [1]	= specialty_scavenger
+[  18215384]           [2]	= specialty_bulletdamage
+[  18215384]           [3]	= specialty_heartbreaker
+[  18215384]           [4]	= specialty_grenadepulldeath
+[  18215384]         specialGrenade	= concussion_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= none
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= peacekeeper
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= pp2000
+[  18215384]       [8]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "Sniper Tryhard"
+[  18215384]         perks
+[  18215384]           [0]	= frag_grenade_mp
+[  18215384]           [1]	= specialty_fastreload
+[  18215384]           [2]	= specialty_bulletdamage
+[  18215384]           [3]	= specialty_bulletaccuracy
+[  18215384]           [4]	= specialty_grenadepulldeath
+[  18215384]         specialGrenade	= smoke_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= thermal
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= barrett
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= akimbo
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= glock
+[  18215384]       [9]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "AK Tryhard"
+[  18215384]         perks
+[  18215384]           [0]	= frag_grenade_mp
+[  18215384]           [1]	= specialty_scavenger
+[  18215384]           [2]	= specialty_bulletdamage
+[  18215384]           [3]	= specialty_heartbreaker
+[  18215384]           [4]	= specialty_grenadepulldeath
+[  18215384]         specialGrenade	= flash_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= fmj
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= ak47classic
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= fmj
+[  18215384]               [1]	= none
+[  18215384]             camo	= gold
+[  18215384]             weapon	= deserteaglegold
+[  18215384]       [10]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "Cancer HC Snipe"
+[  18215384]         perks
+[  18215384]           [0]	= semtex_mp
+[  18215384]           [1]	= specialty_fastreload
+[  18215384]           [2]	= specialty_coldblooded
+[  18215384]           [3]	= specialty_heartbreaker
+[  18215384]           [4]	= specialty_grenadepulldeath
+[  18215384]         specialGrenade	= concussion_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= m21
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= beretta393
+[  18215384]       [11]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "M4 Anti Air"
+[  18215384]         perks
+[  18215384]           [0]	= frag_grenade_mp
+[  18215384]           [1]	= specialty_fastreload
+[  18215384]           [2]	= specialty_coldblooded
+[  18215384]           [3]	= specialty_heartbreaker
+[  18215384]           [4]	= specialty_grenadepulldeath
+[  18215384]         specialGrenade	= concussion_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= m4
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= none
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= stinger
+[  18215384]       [12]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "ACR Ninja"
+[  18215384]         perks
+[  18215384]           [0]	= claymore_mp
+[  18215384]           [1]	= specialty_scavenger
+[  18215384]           [2]	= specialty_bulletdamage
+[  18215384]           [3]	= specialty_heartbreaker
+[  18215384]           [4]	= specialty_combathigh
+[  18215384]         specialGrenade	= concussion_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= masada
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= beretta393
+[  18215384]       [13]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "^4Scar-H Ninja"
+[  18215384]         perks
+[  18215384]           [0]	= claymore_mp
+[  18215384]           [1]	= specialty_scavenger
+[  18215384]           [2]	= specialty_coldblooded
+[  18215384]           [3]	= specialty_heartbreaker
+[  18215384]           [4]	= specialty_combathigh
+[  18215384]         specialGrenade	= flash_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= scar
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= silencer
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= spas12
+[  18215384]       [14]
+[  18215384]         _deathstreak	= specialty_null
+[  18215384]         inUse	= true
+[  18215384]         name	= "Cancer"
+[  18215384]         perks
+[  18215384]           [0]	= semtex_mp
+[  18215384]           [1]	= specialty_scavenger
+[  18215384]           [2]	= specialty_bulletdamage
+[  18215384]           [3]	= specialty_bulletaccuracy
+[  18215384]           [4]	= specialty_grenadepulldeath
+[  18215384]         specialGrenade	= flash_grenade
+[  18215384]         weaponSetups
+[  18215384]           [0]
+[  18215384]             attachment
+[  18215384]               [0]	= fmj
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= aug
+[  18215384]           [1]
+[  18215384]             attachment
+[  18215384]               [0]	= none
+[  18215384]               [1]	= none
+[  18215384]             camo	= none
+[  18215384]             weapon	= javelin
