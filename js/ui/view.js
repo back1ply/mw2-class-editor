@@ -135,6 +135,24 @@ const view = {
       eqIcon.onerror = function() { this.src = ''; };
     }
 
+    // Tactical
+    const tac = $('specialGrenade');
+    const tacIcon = $('tacticalIcon');
+    if (tac && tacIcon) {
+      const iconName = TACTICAL_ICON_MAP[tac.value] || '';
+      tacIcon.src = iconName ? `img/tactical/${iconName}.png` : '';
+      tacIcon.onerror = function() { this.src = ''; };
+    }
+
+    // Deathstreak
+    const ds = $('deathstreak');
+    const dsIcon = $('deathstreakIcon');
+    if (ds && dsIcon) {
+      const iconName = DEATHSTREAK_ICON_MAP[ds.value] || '';
+      dsIcon.src = iconName ? `img/deathstreaks/${iconName}.png` : '';
+      dsIcon.onerror = function() { this.src = ''; };
+    }
+
     // Perks
     for (let i = 1; i <= 3; i++) {
       const perkSel = $(`perk${i}`);
@@ -158,8 +176,8 @@ const view = {
     updateColorPreview();
   },
 
-  /**
-   * Renders performance bars for a weapon.
+   /**
+   * Renders weapon statistics to a container.
    * @param {string} weaponId 
    * @param {string} containerId 
    */
@@ -173,23 +191,32 @@ const view = {
       return;
     }
 
-    const stats = weapon.stats;
+    const { stats } = weapon;
+    
+    // Hide stats for items with no combat value (like One Man Army)
+    if (stats.damageMax === 0 && stats.damageMin === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const damageVal = stats.damageMax === stats.damageMin 
+      ? stats.damageMax 
+      : `${stats.damageMax}-${stats.damageMin}`;
+
+    const rpmVal = stats.rpm === 1 ? 'Single Shot' : (stats.rpm === 0 ? 'N/A' : `${stats.rpm} RPM`);
+    const rangeVal = stats.range === 9999 ? 'Infinite' : (stats.range === 0 ? 'N/A' : `${stats.range} units`);
+
+    // Technical Data Rendering
     const fields = [
-      { key: 'damage', label: 'Damage' },
-      { key: 'range', label: 'Range' },
-      { key: 'fireRate', label: 'Fire Rate' },
-      { key: 'accuracy', label: 'Accuracy' }
+      { label: 'DAMAGE', value: damageVal },
+      { label: 'RPM', value: rpmVal },
+      { label: 'RANGE', value: rangeVal }
     ];
 
     container.innerHTML = fields.map(f => `
-      <div class="stat-row">
-        <div class="stat-header">
-          <span>${f.label}</span>
-          <span>${stats[f.key] * 10}%</span>
-        </div>
-        <div class="stat-bar-outer">
-          <div class="stat-bar-inner" style="width: ${stats[f.key] * 10}%"></div>
-        </div>
+      <div class="stat-row technical">
+        <label class="stat-label">${f.label}:</label>
+        <span class="stat-value">${f.value}</span>
       </div>
     `).join('');
   },

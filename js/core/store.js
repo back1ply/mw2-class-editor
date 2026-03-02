@@ -35,6 +35,16 @@ const store = {
   currentClassIndex: 0,
 
   /**
+   * Returns the current state.
+   */
+  getState() {
+    return {
+      classes: this.classes,
+      currentClassIndex: this.currentClassIndex
+    };
+  },
+
+  /**
    * Initializes state from localStorage or defaults.
    */
   init() {

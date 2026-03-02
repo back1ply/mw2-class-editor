@@ -1,5 +1,6 @@
 // =====================================================
 //  MW2 / IW4x — Complete Game Data Reference
+//  Technical Stats Source: DenKirson (2009), Sym.gg
 //  All internal IDs verified from actual getPlayerData
 // =====================================================
 
@@ -7,65 +8,55 @@ const WEAPONS = {
   assault: {
     label: "— Assault Rifles —",
     items: [
-      { id: "m4", name: "M4A1", stats: { damage: 7, range: 7, fireRate: 8, accuracy: 7 } },
-      { id: "m16", name: "M16A4", stats: { damage: 8, range: 8, fireRate: 5, accuracy: 9 } },
-      { id: "scar", name: "SCAR-H", stats: { damage: 9, range: 7, fireRate: 6, accuracy: 8 } },
-      { id: "famas", name: "FAMAS", stats: { damage: 8, range: 8, fireRate: 5, accuracy: 9 } },
-      { id: "fal", name: "FAL", stats: { damage: 9, range: 9, fireRate: 4, accuracy: 9 } },
-      { id: "masada", name: "ACR", stats: { damage: 6, range: 7, fireRate: 8, accuracy: 10 } },
-      { id: "tar21", name: "TAR-21", stats: { damage: 8, range: 6, fireRate: 9, accuracy: 6 } },
-      { id: "ak47", name: "AK-47", stats: { damage: 9, range: 7, fireRate: 6, accuracy: 6 } },
-      { id: "f2000", name: "F2000", stats: { damage: 5, range: 5, fireRate: 10, accuracy: 5 } },
+      { id: "m4", name: "M4A1", stats: { damageMax: 30, damageMin: 20, range: 1500, rpm: 789 } },
+      { id: "m16", name: "M16A4", stats: { damageMax: 40, damageMin: 30, range: 2000, rpm: 459 } },
+      { id: "scar", name: "SCAR-H", stats: { damageMax: 40, damageMin: 30, range: 1600, rpm: 625 } },
+      { id: "famas", name: "FAMAS", stats: { damageMax: 40, damageMin: 30, range: 2000, rpm: 459 } },
+      { id: "fal", name: "FAL", stats: { damageMax: 55, damageMin: 35, range: 2000, rpm: 625 } },
+      { id: "masada", name: "ACR", stats: { damageMax: 30, damageMin: 20, range: 2000, rpm: 789 } },
+      { id: "tar21", name: "TAR-21", stats: { damageMax: 40, damageMin: 30, range: 1200, rpm: 750 } },
+      { id: "ak47", name: "AK-47", stats: { damageMax: 40, damageMin: 30, range: 1600, rpm: 705 } },
+      { id: "f2000", name: "F2000", stats: { damageMax: 30, damageMin: 20, range: 1000, rpm: 909 } },
     ],
   },
   smg: {
     label: "— SMGs —",
     items: [
-      { id: "mp5k", name: "MP5K", stats: { damage: 6, range: 4, fireRate: 9, accuracy: 5 } },
-      { id: "ump45", name: "UMP45", stats: { damage: 9, range: 5, fireRate: 6, accuracy: 7 } },
-      { id: "vector", name: "Vector", stats: { damage: 5, range: 4, fireRate: 10, accuracy: 8 } },
-      { id: "p90", name: "P90", stats: { damage: 5, range: 5, fireRate: 9, accuracy: 6 } },
-      { id: "uzi", name: "Mini-Uzi", stats: { damage: 6, range: 3, fireRate: 10, accuracy: 4 } },
+      { id: "mp5k", name: "MP5K", stats: { damageMax: 40, damageMin: 20, range: 800, rpm: 857 } },
+      { id: "ump45", name: "UMP45", stats: { damageMax: 40, damageMin: 35, range: 1000, rpm: 666 } },
+      { id: "vector", name: "Vector", stats: { damageMax: 25, damageMin: 20, range: 800, rpm: 1111 } },
+      { id: "p90", name: "P90", stats: { damageMax: 30, damageMin: 20, range: 1000, rpm: 923 } },
+      { id: "uzi", name: "Mini-Uzi", stats: { damageMax: 30, damageMin: 20, range: 800, rpm: 952 } },
     ],
   },
   lmg: {
     label: "— LMGs —",
     items: [
-      { id: "rpd", name: "RPD", stats: { damage: 8, range: 8, fireRate: 7, accuracy: 6 } },
-      { id: "mg4", name: "MG4", stats: { damage: 6, range: 9, fireRate: 8, accuracy: 8 } },
-      { id: "sa80", name: "L86 LSW", stats: { damage: 8, range: 8, fireRate: 8, accuracy: 5 } },
-      { id: "m240", name: "M240", stats: { damage: 6, range: 8, fireRate: 10, accuracy: 6 } },
-      { id: "aug", name: "AUG HBAR", stats: { damage: 9, range: 7, fireRate: 7, accuracy: 7 } },
+      { id: "rpd", name: "RPD", stats: { damageMax: 40, damageMin: 40, range: 9999, rpm: 705 } },
+      { id: "mg4", name: "MG4", stats: { damageMax: 30, damageMin: 30, range: 9999, rpm: 857 } },
+      { id: "sa80", name: "L86 LSW", stats: { damageMax: 40, damageMin: 40, range: 9999, rpm: 789 } },
+      { id: "m240", name: "M240", stats: { damageMax: 30, damageMin: 30, range: 9999, rpm: 952 } },
+      { id: "aug", name: "AUG HBAR", stats: { damageMax: 40, damageMin: 40, range: 9999, rpm: 705 } },
     ],
   },
   sniper: {
     label: "— Sniper Rifles —",
     items: [
-      { id: "cheytac", name: "Intervention", stats: { damage: 10, range: 10, fireRate: 1, accuracy: 9 } },
-      { id: "barrett", name: "Barrett .50cal", stats: { damage: 10, range: 10, fireRate: 3, accuracy: 8 } },
-      { id: "wa2000", name: "WA2000", stats: { damage: 9, range: 10, fireRate: 4, accuracy: 8 } },
-      { id: "m21", name: "M21 EBR", stats: { damage: 7, range: 9, fireRate: 6, accuracy: 9 } },
-    ],
-  },
-  shotgun: {
-    label: "— Shotguns —",
-    items: [
-      { id: "spas12", name: "SPAS-12", stats: { damage: 10, range: 3, fireRate: 2, accuracy: 2 } },
-      { id: "aa12", name: "AA-12", stats: { damage: 7, range: 2, fireRate: 9, accuracy: 1 } },
-      { id: "striker", name: "Striker", stats: { damage: 8, range: 2, fireRate: 5, accuracy: 2 } },
-      { id: "ranger", name: "Ranger", stats: { damage: 10, range: 1, fireRate: 2, accuracy: 1 } },
-      { id: "m1014", name: "M1014", stats: { damage: 8, range: 2, fireRate: 5, accuracy: 2 } },
+      { id: "cheytac", name: "Intervention", stats: { damageMax: 70, damageMin: 70, range: 9999, rpm: 38 } },
+      { id: "barrett", name: "Barrett .50cal", stats: { damageMax: 70, damageMin: 70, range: 9999, rpm: 1200 } },
+      { id: "wa2000", name: "WA2000", stats: { damageMax: 70, damageMin: 70, range: 9999, rpm: 1200 } },
+      { id: "m21", name: "M21 EBR", stats: { damageMax: 70, damageMin: 70, range: 9999, rpm: 1200 } },
     ],
   },
   other: {
     label: "— Other —",
-    items: [{ id: "riotshield", name: "Riot Shield", stats: { damage: 2, range: 1, fireRate: 1, accuracy: 10 } }],
+    items: [{ id: "riotshield", name: "Riot Shield", stats: { damageMax: 50, damageMin: 50, range: 0, rpm: 1 } }],
   },
   custom: {
     label: "— IW4x Custom —",
     items: [
-      { id: "peacekeeper", name: "Peacekeeper", stats: { damage: 7, range: 6, fireRate: 8, accuracy: 8 } },
-      { id: "ak47classic", name: "AK-47 Classic (CoD4)", stats: { damage: 9, range: 7, fireRate: 6, accuracy: 7 } },
+      { id: "peacekeeper", name: "Peacekeeper", stats: { damageMax: 33, damageMin: 22, range: 1200, rpm: 750 } },
+      { id: "ak47classic", name: "AK-47 Classic (CoD4)", stats: { damageMax: 30, damageMin: 20, range: 1600, rpm: 705 } },
     ],
   },
 
@@ -75,45 +66,45 @@ const SECONDARY_WEAPONS = {
   pistol: {
     label: "— Handguns —",
     items: [
-      { id: "usp", name: "USP .45", stats: { damage: 5, range: 4, fireRate: 6, accuracy: 8 } },
-      { id: "beretta393", name: "M9 (Beretta)", stats: { damage: 4, range: 4, fireRate: 7, accuracy: 8 } },
-      { id: "coltanaconda", name: ".44 Magnum", stats: { damage: 9, range: 5, fireRate: 3, accuracy: 7 } },
-      { id: "deserteagle", name: "Desert Eagle", stats: { damage: 9, range: 4, fireRate: 3, accuracy: 5 } },
-      { id: "deserteaglegold", name: "Desert Eagle (Gold)", stats: { damage: 9, range: 4, fireRate: 3, accuracy: 5 } },
+      { id: "usp", name: "USP .45", stats: { damageMax: 40, damageMin: 25, range: 800, rpm: 625 } },
+      { id: "beretta393", name: "M9 (Beretta)", stats: { damageMax: 40, damageMin: 25, range: 800, rpm: 750 } },
+      { id: "coltanaconda", name: ".44 Magnum", stats: { damageMax: 50, damageMin: 35, range: 1000, rpm: 459 } },
+      { id: "deserteagle", name: "Desert Eagle", stats: { damageMax: 50, damageMin: 30, range: 800, rpm: 459 } },
+      { id: "deserteaglegold", name: "Desert Eagle (Gold)", stats: { damageMax: 50, damageMin: 30, range: 800, rpm: 459 } },
     ],
   },
   machine_pistol: {
     label: "— Machine Pistols —",
     items: [
-      { id: "pp2000", name: "PP2000", stats: { damage: 7, range: 4, fireRate: 9, accuracy: 6 } },
-      { id: "glock", name: "G18", stats: { damage: 5, range: 3, fireRate: 10, accuracy: 4 } },
-      { id: "beretta93r", name: "M93 Raffica", stats: { damage: 7, range: 5, fireRate: 9, accuracy: 8 } },
-      { id: "tmp", name: "TMP", stats: { damage: 5, range: 4, fireRate: 10, accuracy: 9 } },
+      { id: "pp2000", name: "PP2000", stats: { damageMax: 40, damageMin: 20, range: 800, rpm: 857 } },
+      { id: "glock", name: "G18", stats: { damageMax: 30, damageMin: 20, range: 500, rpm: 1111 } },
+      { id: "beretta93r", name: "M93 Raffica", stats: { damageMax: 40, damageMin: 30, range: 1000, rpm: 459 } },
+      { id: "tmp", name: "TMP", stats: { damageMax: 30, damageMin: 20, range: 800, rpm: 923 } },
     ],
   },
   shotgun: {
     label: "— Shotguns —",
     items: [
-      { id: "spas12", name: "SPAS-12", stats: { damage: 10, range: 3, fireRate: 2, accuracy: 2 } },
-      { id: "aa12", name: "AA-12", stats: { damage: 7, range: 2, fireRate: 9, accuracy: 1 } },
-      { id: "striker", name: "Striker", stats: { damage: 8, range: 2, fireRate: 5, accuracy: 2 } },
-      { id: "ranger", name: "Ranger", stats: { damage: 10, range: 1, fireRate: 2, accuracy: 1 } },
-      { id: "m1014", name: "M1014", stats: { damage: 8, range: 2, fireRate: 5, accuracy: 2 } },
+      { id: "spas12", name: "SPAS-12", stats: { damageMax: "40x8", damageMin: "20x8", range: 600, rpm: 72 } },
+      { id: "aa12", name: "AA-12", stats: { damageMax: "20x8", damageMin: "15x8", range: 400, rpm: 400 } },
+      { id: "striker", name: "Striker", stats: { damageMax: "25x8", damageMin: "15x8", range: 500, rpm: 300 } },
+      { id: "ranger", name: "Ranger", stats: { damageMax: "75x8", damageMin: "30x8", range: 300, rpm: 150 } },
+      { id: "m1014", name: "M1014", stats: { damageMax: "30x8", damageMin: "20x8", range: 600, rpm: 300 } },
     ],
   },
   launcher: {
     label: "— Launchers —",
     items: [
-      { id: "at4", name: "AT4-HS", stats: { damage: 10, range: 10, fireRate: 1, accuracy: 5 } },
-      { id: "rpg", name: "RPG-7", stats: { damage: 10, range: 6, fireRate: 2, accuracy: 3 } },
-      { id: "thumper", name: "Thumper", stats: { damage: 9, range: 5, fireRate: 2, accuracy: 4 } },
-      { id: "javelin", name: "Javelin", stats: { damage: 10, range: 10, fireRate: 1, accuracy: 10 } },
-      { id: "stinger", name: "Stinger", stats: { damage: 10, range: 10, fireRate: 1, accuracy: 10 } },
+      { id: "at4", name: "AT4-HS", stats: { damageMax: 200, damageMin: 200, range: 9999, rpm: 1 } },
+      { id: "rpg", name: "RPG-7", stats: { damageMax: 200, damageMin: 200, range: 9999, rpm: 1 } },
+      { id: "thumper", name: "Thumper", stats: { damageMax: 200, damageMin: 200, range: 800, rpm: 60 } },
+      { id: "javelin", name: "Javelin", stats: { damageMax: 300, damageMin: 300, range: 9999, rpm: 1 } },
+      { id: "stinger", name: "Stinger", stats: { damageMax: 300, damageMin: 300, range: 9999, rpm: 1 } },
     ],
   },
   special: {
     label: "— Special —",
-    items: [{ id: "onemanarmy", name: "One Man Army", stats: { damage: 0, range: 0, fireRate: 0, accuracy: 0 } }],
+    items: [{ id: "onemanarmy", name: "One Man Army", stats: { damageMax: 0, damageMin: 0, range: 0, rpm: 0 } }],
   },
 
 };
@@ -287,5 +278,86 @@ function getDefaultClass(i) {
     deathstreak: "specialty_combathigh",
   };
 }
+
+// Map UI element IDs to state object keys
+const FIELD_MAP = {
+  'className': 'name',
+  'primaryWeapon': 'primaryWeapon',
+  'primaryAttach1': 'primaryAttach1',
+  'primaryAttach2': 'primaryAttach2',
+  'primaryCamo': 'primaryCamo',
+  'secondaryWeapon': 'secondaryWeapon',
+  'secondaryAttach1': 'secondaryAttach1',
+  'secondaryAttach2': 'secondaryAttach2',
+  'secondaryCamo': 'secondaryCamo',
+  'equipment': 'equipment',
+  'specialGrenade': 'specialGrenade',
+  'perk1': 'perk1',
+  'perk2': 'perk2',
+  'perk3': 'perk3',
+  'deathstreak': 'deathstreak'
+};
+
+// Map internal perk IDs to image filenames
+const PERK_ICON_MAP = {
+  'specialty_marathon': 'marathon',
+  'specialty_marathon_pro': 'marathon',
+  'specialty_fastreload': 'sleight_of_hand',
+  'specialty_fastreload_pro': 'sleight_of_hand',
+  'specialty_scavenger': 'scavenger',
+  'specialty_scavenger_pro': 'scavenger',
+  'specialty_bling': 'bling',
+  'specialty_bling_pro': 'bling',
+  'specialty_onemanarmy': 'one_man_army',
+  'specialty_onemanarmy_pro': 'one_man_army',
+  'specialty_bulletdamage': 'stopping_power',
+  'specialty_bulletdamage_pro': 'stopping_power',
+  'specialty_lightweight': 'lightweight',
+  'specialty_lightweight_pro': 'lightweight',
+  'specialty_hardline': 'hardline',
+  'specialty_hardline_pro': 'hardline',
+  'specialty_coldblooded': 'cold_blooded',
+  'specialty_coldblooded_pro': 'cold_blooded',
+  'specialty_explosivedamage': 'danger_close',
+  'specialty_explosivedamage_pro': 'danger_close',
+  'specialty_extendedmelee': 'commando',
+  'specialty_extendedmelee_pro': 'commando',
+  'specialty_bulletaccuracy': 'steady_aim',
+  'specialty_bulletaccuracy_pro': 'steady_aim',
+  'specialty_scrambler': 'scrambler',
+  'specialty_scrambler_pro': 'scrambler',
+  'specialty_heartbreaker': 'ninja',
+  'specialty_heartbreaker_pro': 'ninja',
+  'specialty_detectexplosive': 'sitrep',
+  'specialty_detectexplosive_pro': 'sitrep',
+  'specialty_pistoldeath': 'last_stand',
+  'specialty_pistoldeath_pro': 'last_stand'
+};
+
+// Map internal equipment IDs to image filenames
+const EQUIP_ICON_MAP = {
+  'frag_grenade_mp': 'frag_grenade',
+  'semtex_mp': 'semtex',
+  'throwingknife_mp': 'throwing_knife',
+  'claymore_mp': 'claymore',
+  'c4_mp': 'c4',
+  'oic_tactinsert_mp': 'tactical_insertion',
+  'oic_flashbanggrenade_mp': 'blast_shield'
+};
+
+// Map internal deathstreak IDs to image filenames
+const DEATHSTREAK_ICON_MAP = {
+  'specialty_combathigh': 'painkiller',
+  'specialty_grenadepulldeath': 'martyrdom',
+  'specialty_finalstand': 'final_stand',
+  'specialty_yourturn': 'copycat'
+};
+
+// Map internal tactical grenade IDs to image filenames
+const TACTICAL_ICON_MAP = {
+  'concussion_grenade': 'stun_grenade',
+  'flash_grenade': 'flash_grenade',
+  'smoke_grenade': 'smoke_grenade'
+};
 
 

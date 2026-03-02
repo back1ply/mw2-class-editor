@@ -4,6 +4,12 @@
  */
 
 // =====================================================
+//  STATE
+// =====================================================
+
+let outputMode = 'current';
+
+// =====================================================
 //  INIT
 // =====================================================
 
@@ -210,6 +216,50 @@ function updateColorPreview() {
 // =====================================================
 //  IMPORT / EXPORT
 // =====================================================
+
+function toggleImportPanel() {
+  const panel = $('importPanel');
+  const btn = $('importToggleBtn');
+  if (!panel || !btn) return;
+  const isVisible = panel.classList.toggle('visible');
+  btn.setAttribute('aria-expanded', isVisible ? 'true' : 'false');
+}
+
+function importFromPaste() {
+  const textarea = $('pasteArea');
+  const resultEl = $('importResult');
+  if (!textarea) return;
+
+  const text = textarea.value.trim();
+  if (!text) {
+    if (resultEl) {
+      resultEl.textContent = 'Paste some log content first.';
+      resultEl.className = 'import-result error';
+    }
+    return;
+  }
+
+  const result = parseConsoleLog(text);
+  if (result.count > 0) {
+    store.classes = result.classes;
+    store.save();
+    view.buildTabs();
+    view.updateActiveTab(0);
+    view.updateAll();
+    generateOutput();
+    if (resultEl) {
+      resultEl.textContent = `Imported ${result.count} class${result.count !== 1 ? 'es' : ''} successfully.`;
+      resultEl.className = 'import-result success';
+    }
+    showToast(`Imported ${result.count} classes`, 'success');
+  } else {
+    if (resultEl) {
+      resultEl.textContent = 'No class data found. Make sure you pasted output from /dumpPlayerData.';
+      resultEl.className = 'import-result error';
+    }
+    showToast('No class data found', 'info');
+  }
+}
 
 function setupImport() {
   const dropZone = $('dropZone');

@@ -97,10 +97,10 @@
       </div>
 
       <!-- ===================== LOADOUT ===================== -->
-      <div class="loadout" id="loadout">
+      <main class="loadout" id="loadout">
         <!-- Class Name -->
-        <div class="loadout-section">
-          <div class="section-label">CLASS NAME</div>
+        <div class="loadout-section card-name-card">
+          <div class="section-label">CLASS SETTINGS</div>
           <div class="class-name-row">
             <input
               type="text"
@@ -112,167 +112,117 @@
             <div class="color-preview" id="colorPreview">
               <span class="color-hint">Type a name to preview colors...</span>
             </div>
-            <p class="color-codes-info">
-              ^0 Black · ^1 Red · ^2 Green · ^3 Yellow · ^4 Blue · ^5 Cyan · ^6
-              Pink · ^7 White
-            </p>
           </div>
         </div>
 
         <!-- Primary Weapon -->
-        <div class="loadout-section">
+        <div class="loadout-section weapon-card highlight">
           <div class="section-label">PRIMARY WEAPON</div>
           <div class="loadout-slot" id="slotPrimary">
-            <img
-              class="slot-icon weapon-icon"
-              id="primaryWeaponIcon"
-              src=""
-              alt=""
-            />
+            <div class="slot-visual">
+              <img class="slot-icon weapon-icon" id="primaryWeaponIcon" src="" alt="" />
+            </div>
             <div class="slot-details">
               <select id="primaryWeapon" onchange="onFieldChange()"></select>
               <div class="slot-sub-row">
                 <div class="sub-field">
                   <label>Attachment 1</label>
-                  <select
-                    id="primaryAttach1"
-                    onchange="onFieldChange()"
-                  ></select>
-                </div>
-                <div class="sub-field">
-                  <label
-                    >Attachment 2 <span class="req-perk">(Bling)</span></label
-                  >
-                  <select
-                    id="primaryAttach2"
-                    onchange="onFieldChange()"
-                  ></select>
+                  <select id="primaryAttach1" onchange="onFieldChange()"></select>
                 </div>
                 <div class="sub-field">
                   <label>Camo</label>
                   <select id="primaryCamo" onchange="onFieldChange()"></select>
                 </div>
               </div>
-              <!-- Weapon Stats -->
+              <div class="sub-field secondary-attach">
+                <label>Attachment 2 <span class="req-perk">(Bling)</span></label>
+                <select id="primaryAttach2" onchange="onFieldChange()"></select>
+              </div>
               <div class="weapon-stats-container" id="primaryStats"></div>
             </div>
           </div>
         </div>
 
         <!-- Secondary Weapon -->
-        <div class="loadout-section">
+        <div class="loadout-section weapon-card">
           <div class="section-label">SECONDARY WEAPON</div>
           <div class="loadout-slot" id="slotSecondary">
-            <img
-              class="slot-icon weapon-icon"
-              id="secondaryWeaponIcon"
-              src=""
-              alt=""
-            />
+            <div class="slot-visual">
+              <img class="slot-icon weapon-icon" id="secondaryWeaponIcon" src="" alt="" />
+            </div>
             <div class="slot-details">
               <select id="secondaryWeapon" onchange="onFieldChange()"></select>
               <div class="slot-sub-row">
                 <div class="sub-field">
                   <label>Attachment 1</label>
-                  <select
-                    id="secondaryAttach1"
-                    onchange="onFieldChange()"
-                  ></select>
-                </div>
-                <div class="sub-field">
-                  <label
-                    >Attachment 2
-                    <span class="req-perk">(Bling Pro)</span></label
-                  >
-                  <select
-                    id="secondaryAttach2"
-                    onchange="onFieldChange()"
-                  ></select>
+                  <select id="secondaryAttach1" onchange="onFieldChange()"></select>
                 </div>
                 <div class="sub-field">
                   <label>Camo</label>
-                  <select
-                    id="secondaryCamo"
-                    onchange="onFieldChange()"
-                  ></select>
+                  <select id="secondaryCamo" onchange="onFieldChange()"></select>
                 </div>
               </div>
-              <!-- Weapon Stats -->
+              <div class="sub-field secondary-attach">
+                <label>Attachment 2 <span class="req-perk">(Pro)</span></label>
+                <select id="secondaryAttach2" onchange="onFieldChange()"></select>
+              </div>
               <div class="weapon-stats-container" id="secondaryStats"></div>
             </div>
           </div>
         </div>
 
-        <!-- Equipment & Tactical -->
-        <div class="loadout-section equipment-row">
-          <div class="equip-col">
-            <div class="section-label">EQUIPMENT</div>
-            <div class="loadout-slot compact">
-              <img
-                class="slot-icon equip-icon"
-                id="equipmentIcon"
-                src=""
-                alt=""
-              />
-              <select id="equipment" onchange="onFieldChange()"></select>
-            </div>
-          </div>
-          <div class="equip-col">
-            <div class="section-label">TACTICAL</div>
-            <div class="loadout-slot compact">
-              <img
-                class="slot-icon equip-icon"
-                id="tacticalIcon"
-                src=""
-                alt=""
-              />
-              <select id="specialGrenade" onchange="onFieldChange()"></select>
-            </div>
-          </div>
-        </div>
-
         <!-- Perks -->
-        <div class="loadout-section">
+        <div class="loadout-section perks-card">
           <div class="section-label">PERKS</div>
           <div class="perks-row">
             <div class="perk-slot" data-tier="1">
               <img class="perk-icon" id="perk1Icon" src="" alt="" />
               <div class="perk-info">
-                <span class="perk-tier-label">Perk 1</span>
+                <span class="perk-tier-label">T1</span>
                 <select id="perk1" onchange="onFieldChange()"></select>
               </div>
             </div>
             <div class="perk-slot" data-tier="2">
               <img class="perk-icon" id="perk2Icon" src="" alt="" />
               <div class="perk-info">
-                <span class="perk-tier-label">Perk 2</span>
+                <span class="perk-tier-label">T2</span>
                 <select id="perk2" onchange="onFieldChange()"></select>
               </div>
             </div>
             <div class="perk-slot" data-tier="3">
               <img class="perk-icon" id="perk3Icon" src="" alt="" />
               <div class="perk-info">
-                <span class="perk-tier-label">Perk 3</span>
+                <span class="perk-tier-label">T3</span>
                 <select id="perk3" onchange="onFieldChange()"></select>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- Equipment & Tactical -->
+        <div class="loadout-section utility-card">
+          <div class="section-label">EQUIPMENT & TACTICAL</div>
+          <div class="utility-row">
+            <div class="loadout-slot compact">
+              <img class="slot-icon equip-icon" id="equipmentIcon" src="" alt="" />
+              <select id="equipment" onchange="onFieldChange()"></select>
+            </div>
+            <div class="loadout-slot compact">
+              <img class="slot-icon equip-icon" id="tacticalIcon" src="" alt="" />
+              <select id="specialGrenade" onchange="onFieldChange()"></select>
+            </div>
+          </div>
+        </div>
+
         <!-- Deathstreak -->
-        <div class="loadout-section">
+        <div class="loadout-section deathstreak-card">
           <div class="section-label">DEATHSTREAK</div>
           <div class="loadout-slot compact">
-            <img
-              class="slot-icon equip-icon"
-              id="deathstreakIcon"
-              src=""
-              alt=""
-            />
+            <img class="slot-icon equip-icon" id="deathstreakIcon" src="" alt="" />
             <select id="deathstreak" onchange="onFieldChange()"></select>
           </div>
         </div>
-      </div>
+      </main>
 
       <!-- ===================== OUTPUT ===================== -->
       <div class="output-section">

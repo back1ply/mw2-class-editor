@@ -56,14 +56,42 @@
   --bg-primary: var(--color-bg-app);
   --bg-secondary: var(--color-bg-panel);
   --bg-card: var(--color-bg-card);
+  --bg-card-solid: #141820;
   --bg-slot: var(--color-bg-slot);
+  --bg-input: var(--color-bg-input);
+  --bg-hover: rgba(255, 255, 255, 0.03);
   --text-primary: var(--color-text-main);
   --text-secondary: var(--color-text-dim);
   --text-muted: var(--color-text-muted);
+  --text-dim: var(--color-text-dim);
   --accent: var(--color-accent);
+  --accent-glow: var(--color-accent-glow);
+  --accent-glow-strong: rgba(74, 140, 255, 0.4);
   --gold: var(--color-gold);
+  --gold-bright: var(--color-gold-bright);
+  --gold-glow: var(--color-gold-glow);
   --success: var(--color-success);
+  --success-dim: rgba(52, 208, 88, 0.3);
+  --success-glow: rgba(52, 208, 88, 0.1);
   --danger: var(--color-danger);
+  --danger-glow: rgba(248, 81, 73, 0.1);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.15);
+  --border-slot: rgba(255, 255, 255, 0.06);
+  --color-border: rgba(255, 255, 255, 0.08);
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+
+  /* Glassmorphism */
+  --glass-blur: blur(12px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+  --img-blend: normal;
+
+  /* Perk tier colors */
+  --perk1-color: #4a8cff;
+  --perk2-color: #f59e0b;
+  --perk3-color: #10b981;
+  --perk-pro-glow: var(--color-gold-glow);
 }
 
 * {
@@ -355,21 +383,32 @@ body::after {
    ===================================================== */
 
 .loadout {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  margin-bottom: 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
 .loadout-section {
-  background: var(--bg-slot);
-  border: 1px solid var(--border-slot);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  transition: border-color var(--transition-fast);
+  background: var(--color-bg-card);
+  backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
 }
+
+/* Full width for class name row */
+.loadout-section:first-child {
+  grid-column: span 2;
+}
+
 .loadout-section:hover {
-  border-color: var(--border-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
 .section-label {
@@ -395,12 +434,13 @@ body::after {
 .slot-icon {
   flex-shrink: 0;
   object-fit: contain;
-  filter: brightness(0) invert(1);
-  opacity: 0.85;
-  transition: opacity var(--transition-fast);
+  mix-blend-mode: var(--img-blend);
+  filter: contrast(1.1) brightness(1.1);
+  transition: transform 0.3s ease;
 }
+
 .slot-icon:hover {
-  opacity: 1;
+  transform: scale(1.05);
 }
 
 .weapon-icon {
@@ -577,32 +617,30 @@ body::after {
 select,
 input[type="text"] {
   width: 100%;
-  padding: 8px 12px;
-  background: var(--bg-input);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  font-family: "Rajdhani", sans-serif;
-  font-size: 0.88rem;
+  padding: 10px 14px;
+  background: var(--color-bg-input);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--color-text-main);
+  font-family: inherit;
+  font-size: 0.9rem;
   font-weight: 500;
-  transition: border-color var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
-select {
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg fill='%239aa3b8' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 14px;
-  padding-right: 28px;
-  cursor: pointer;
+select:hover,
+input[type="text"]:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 select:focus,
 input[type="text"]:focus {
   outline: none;
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent-glow);
+  border-color: var(--color-accent);
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 15px var(--color-accent-glow);
 }
 
 select option {
