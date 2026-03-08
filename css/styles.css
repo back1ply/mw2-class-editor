@@ -253,8 +253,8 @@ body::after {
   background: var(--bg-hover);
 }
 .drop-zone.drag-over {
-  border-color: var(--accent);
-  background: rgba(74, 140, 255, 0.05);
+  border-color: var(--color-accent);
+  background: rgba(140, 230, 21, 0.05);
 }
 .drop-zone input[type="file"] {
   position: absolute;
@@ -705,7 +705,7 @@ select option {
 .btn-success:hover {
   background: var(--color-success);
   color: #000;
-  box-shadow: 0 2px 12px var(--color-accent-glow);
+  box-shadow: 0 2px 12px var(--accent-glow-strong);
 }
 
 .btn-danger {
