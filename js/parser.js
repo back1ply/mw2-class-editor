@@ -104,8 +104,11 @@ function parseConsoleLog(rawText) {
             }
         }
 
-        if (currentSection === 'weaponSetups' && !trimmed.includes('=')) {
+        if ((currentSection === 'weaponSetups' || currentSection === 'attachment') && !trimmed.includes('=')) {
+            // A bare [N] (no =) while in weaponSetups or attachment means a new weapon slot
+            currentSection = 'weaponSetups';
             currentWeaponIdx = idx;
+            currentAttachIdx = -1;
         } else if (currentSection === 'attachment') {
             currentAttachIdx = idx;
             if (inlineValue) {
@@ -149,6 +152,10 @@ function parseConsoleLog(rawText) {
                 // Root class properties
                 if (key === 'name') classData.name = val;
                 if (key === 'specialGrenade') classData.specialGrenade = val;
+            } else if (key === 'specialGrenade') {
+                // specialGrenade can appear at root level after weaponSetups block
+                classData.specialGrenade = val;
+                currentSection = '';
             } else if (currentSection === 'weaponSetups' && currentWeaponIdx >= 0) {
                 // `weapon` and `camo` can appear plainly.
                 if (currentWeaponIdx === 0) {
