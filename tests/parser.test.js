@@ -1,4 +1,6 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
 const { describe, it } = require('node:test');
 const assert = require('node:assert/strict');
 const { parseConsoleLog, parseCfgLines } = require('./helpers.js');
@@ -227,6 +229,66 @@ setPlayerData customClasses 0 name "CFG Name"
 `;
     const r = parseConsoleLog(log);
     assert.equal(r.classes[0].name, 'Tree Name');
+  });
+
+});
+
+describe('parseConsoleLog — real console_mp.log', () => {
+  const logPath = path.join(__dirname, '../sample_from_console_mp.log');
+  const raw = fs.readFileSync(logPath, 'utf8');
+  const r = parseConsoleLog(raw);
+
+  it('extracts all 15 classes', () => {
+    assert.equal(r.count, 15);
+    assert.equal(r.classes.length, 15);
+  });
+
+  it('class 0: name, primary weapon, secondary weapon, specialGrenade', () => {
+    const c = r.classes[0];
+    assert.equal(c.name, 'THE NOOB2');
+    assert.equal(c.primaryWeapon, 'ump45');
+    assert.equal(c.secondaryWeapon, 'beretta393');
+    assert.equal(c.specialGrenade, 'concussion_grenade');
+  });
+
+  it('class 0: attachments and perks', () => {
+    const c = r.classes[0];
+    assert.equal(c.primaryAttach1, 'silencer');
+    assert.equal(c.primaryAttach2, 'none');
+    assert.equal(c.secondaryAttach1, 'silencer');
+    assert.equal(c.equipment, 'frag_grenade_mp');
+    assert.equal(c.perk1, 'specialty_scavenger');
+    assert.equal(c.perk2, 'specialty_coldblooded');
+    assert.equal(c.perk3, 'specialty_heartbreaker');
+    assert.equal(c.deathstreak, 'specialty_combathigh');
+  });
+
+  it('class 5: camo is parsed correctly', () => {
+    // class 5 "^1Cancer Loud" has primaryCamo = desert
+    const c = r.classes[5];
+    assert.equal(c.primaryCamo, 'desert');
+    assert.equal(c.primaryWeapon, 'famas');
+  });
+
+  it('class 9: secondary camo is parsed correctly', () => {
+    // class 9 "AK Tryhard" has secondaryCamo = gold
+    const c = r.classes[9];
+    assert.equal(c.secondaryCamo, 'gold');
+    assert.equal(c.secondaryWeapon, 'deserteaglegold');
+  });
+
+  it('all classes have non-null primary weapon', () => {
+    for (let i = 0; i < 15; i++) {
+      assert.notEqual(r.classes[i].primaryWeapon, 'none',
+        `Class ${i} (${r.classes[i].name}) missing primaryWeapon`);
+    }
+  });
+
+  it('all classes have non-null secondary weapon', () => {
+    for (let i = 0; i < 15; i++) {
+      assert.notEqual(r.classes[i].secondaryWeapon, 'none',
+        `Class ${i} (${r.classes[i].name}) missing secondaryWeapon`);
+    }
   });
 
 });

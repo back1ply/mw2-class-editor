@@ -157,8 +157,10 @@ function parseConsoleLog(rawText) {
                 // so resetting currentSection to '' here is safe — it appears after weaponSetups.
                 classData.specialGrenade = val;
                 currentSection = '';
-            } else if (currentSection === 'weaponSetups' && currentWeaponIdx >= 0) {
-                // `weapon` and `camo` can appear plainly.
+            } else if ((currentSection === 'weaponSetups' || currentSection === 'attachment') && currentWeaponIdx >= 0) {
+                // `weapon` and `camo` appear after the attachment block in real MW2 dumps.
+                // Seeing them means we've exited the attachment sub-section.
+                if (currentSection === 'attachment') currentSection = 'weaponSetups';
                 if (currentWeaponIdx === 0) {
                     if (key === 'weapon') classData.primaryWeapon = val;
                     if (key === 'camo') classData.primaryCamo = val;
