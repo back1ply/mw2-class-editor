@@ -56,7 +56,7 @@
   --bg-primary: var(--color-bg-app);
   --bg-secondary: var(--color-bg-panel);
   --bg-card: var(--color-bg-card);
-  --bg-card-solid: #141820;
+  --bg-card-solid: #1a1c17;
   --bg-slot: var(--color-bg-slot);
   --bg-input: var(--color-bg-input);
   --bg-hover: rgba(255, 255, 255, 0.03);
@@ -66,12 +66,12 @@
   --text-dim: var(--color-text-dim);
   --accent: var(--color-accent);
   --accent-glow: var(--color-accent-glow);
-  --accent-glow-strong: rgba(74, 140, 255, 0.4);
+  --accent-glow-strong: rgba(140, 230, 21, 0.35);
   --gold: var(--color-gold);
   --gold-bright: var(--color-gold-bright);
   --gold-glow: var(--color-gold-glow);
   --success: var(--color-success);
-  --success-dim: rgba(52, 208, 88, 0.3);
+  --success-dim: #3d6b0a;
   --success-glow: rgba(52, 208, 88, 0.1);
   --danger: var(--color-danger);
   --danger-glow: rgba(248, 81, 73, 0.1);
@@ -681,11 +681,11 @@ select option {
 }
 
 .btn-primary {
-  background: var(--accent);
-  color: #fff;
+  background: var(--color-accent);
+  color: #000;
 }
 .btn-primary:hover {
-  background: #5a9cff;
+  background: var(--color-accent-strong);
   box-shadow: 0 2px 12px var(--accent-glow-strong);
 }
 
@@ -703,8 +703,9 @@ select option {
   color: #fff;
 }
 .btn-success:hover {
-  background: var(--success);
-  box-shadow: 0 2px 12px var(--success-glow);
+  background: var(--color-success);
+  color: #000;
+  box-shadow: 0 2px 12px var(--color-accent-glow);
 }
 
 .btn-danger {
