@@ -552,7 +552,7 @@ body::after {
   background: rgba(255, 255, 255, 0.04);
   padding: 4px;
   flex-shrink: 0;
-  mix-blend-mode: multiply;
+  mix-blend-mode: var(--img-blend);
   transition: box-shadow var(--transition-normal);
 }
 
