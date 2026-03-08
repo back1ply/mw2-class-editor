@@ -85,7 +85,7 @@
   /* Glassmorphism -> Flat Classic */
   --glass-blur: none;
   --glass-border: 1px solid var(--border-slot);
-  --img-blend: normal;
+  --img-blend: screen;
 
   /* Perk tier colors */
   --perk1-color: #217fd8; /* Blue */
@@ -493,7 +493,7 @@ body::after {
   flex-shrink: 0;
   object-fit: contain;
   mix-blend-mode: var(--img-blend);
-  filter: brightness(0.72) saturate(0.8) contrast(1.05);
+  filter: invert(1) hue-rotate(180deg);
   transition: transform 0.3s ease;
 }
 
@@ -591,7 +591,7 @@ body::after {
   padding: 4px;
   flex-shrink: 0;
   mix-blend-mode: var(--img-blend);
-  filter: brightness(0.78) saturate(0.85) contrast(1.05);
+  filter: invert(1) hue-rotate(180deg);
   transition: box-shadow var(--transition-normal);
 }
 
