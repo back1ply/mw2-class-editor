@@ -153,7 +153,8 @@ function parseConsoleLog(rawText) {
                 if (key === 'name') classData.name = val;
                 if (key === 'specialGrenade') classData.specialGrenade = val;
             } else if (key === 'specialGrenade') {
-                // specialGrenade can appear at root level after weaponSetups block
+                // specialGrenade is always the last root-level field in a MW2 class dump,
+                // so resetting currentSection to '' here is safe — it appears after weaponSetups.
                 classData.specialGrenade = val;
                 currentSection = '';
             } else if (currentSection === 'weaponSetups' && currentWeaponIdx >= 0) {
