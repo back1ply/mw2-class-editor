@@ -249,9 +249,7 @@ function importFromPaste() {
     store.classes = result.classes;
     store.save();
     view.buildTabs();
-    view.updateActiveTab(0);
-    view.updateAll();
-    generateOutput();
+    store.switchClass(0);
     if (resultEl) {
       resultEl.textContent = `Imported ${result.count} class${result.count !== 1 ? 'es' : ''} successfully.`;
       resultEl.className = 'import-result success';
@@ -294,9 +292,7 @@ function readAndImport(file) {
       store.classes = result.classes;
       store.save();
       view.buildTabs();
-      view.updateActiveTab(0);
-      view.updateAll();
-      generateOutput();
+      store.switchClass(0);
       showToast(`Imported ${result.count} classes`, 'success');
     }
   };
