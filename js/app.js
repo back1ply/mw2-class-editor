@@ -160,8 +160,13 @@ function resetCurrentClass() {
 
 function resetAllClasses() {
   if (!confirm('Reset ALL 15 classes?')) return;
-  for (let i = 0; i < NUM_CLASSES; i++) store.classes[i] = getDefaultClass(i);
+  for (let i = 0; i < NUM_CLASSES; i++) {
+    const savedName = store.classes[i].name;
+    store.classes[i] = getDefaultClass(i);
+    if (savedName) store.classes[i].name = savedName;
+  }
   store.save();
+  view.buildTabs();
   view.updateAll();
   generateOutput();
   showToast('All classes reset', 'info');
