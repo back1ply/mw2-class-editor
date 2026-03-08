@@ -26,7 +26,7 @@
         </div>
         <div class="header-actions">
           <button class="btn btn-gold btn-sm" onclick="view.showExportModal()">
-            📜 Export GSC
+            ↗ Export GSC
           </button>
         </div>
       </header>
@@ -40,7 +40,7 @@
           aria-expanded="false"
           aria-controls="importPanel"
         >
-          📥 Import from Console Log
+          ↓ Import from Console Log
         </button>
 
         <div class="import-panel" id="importPanel">
@@ -66,7 +66,7 @@
                 class="btn btn-primary btn-sm"
                 onclick="importFromPaste()"
               >
-                📋 Import from Paste
+                Import from Paste
               </button>
             </div>
           </div>
@@ -75,29 +75,35 @@
         </div>
       </div>
 
-      <!-- ===================== CLASS TABS ===================== -->
-      <nav
-        class="class-tabs"
-        id="classTabs"
-        role="tablist"
-        aria-label="Class selection"
-      ></nav>
+      <!-- ===================== EDITOR LAYOUT (CLASSIC) ===================== -->
+      <div class="editor-layout">
+        <!-- ===================== SIDEBAR ===================== -->
+        <aside class="editor-sidebar">
+          <nav
+            class="class-list"
+            id="classTabs"
+            role="tablist"
+            aria-label="Class selection"
+          ></nav>
+        </aside>
 
-      <!-- ===================== QUICK ACTIONS ===================== -->
-      <div class="quick-actions">
-        <button class="btn btn-outline" onclick="resetCurrentClass()">
-          ↺ Reset Current
-        </button>
-        <button class="btn btn-danger btn-sm" onclick="resetAllClasses()">
-          Reset All
-        </button>
-        <button class="btn btn-outline" onclick="generateUnlockAll()">
-          🔓 Unlock All Stats
-        </button>
-      </div>
+        <!-- ===================== MAIN AREA ===================== -->
+        <div class="editor-main">
+          <!-- ===================== QUICK ACTIONS ===================== -->
+          <div class="quick-actions">
+            <button class="btn btn-outline" onclick="resetCurrentClass()">
+              ↺ Reset Current
+            </button>
+            <button class="btn btn-danger btn-sm" onclick="resetAllClasses()">
+              Reset All
+            </button>
+            <button class="btn btn-outline" onclick="generateUnlockAll()">
+              🔓 Unlock All Stats
+            </button>
+          </div>
 
-      <!-- ===================== LOADOUT ===================== -->
-      <main class="loadout" id="loadout">
+          <!-- ===================== LOADOUT ===================== -->
+          <main class="loadout mw2-classic" id="loadout">
         <!-- Class Name -->
         <div class="loadout-section card-name-card">
           <div class="section-label">CLASS SETTINGS</div>
@@ -222,7 +228,9 @@
             <select id="deathstreak" onchange="onFieldChange()"></select>
           </div>
         </div>
-      </main>
+          </main>
+        </div>
+      </div>
 
       <!-- ===================== OUTPUT ===================== -->
       <div class="output-section">
@@ -230,7 +238,7 @@
           <h3>📋 COMMAND OUTPUT</h3>
           <div class="btn-group">
             <button class="btn btn-primary btn-sm" onclick="copyCommands()">
-              📋 Copy
+              ⎘ Copy
             </button>
             <button
               class="btn btn-success btn-sm"
