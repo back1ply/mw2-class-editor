@@ -276,6 +276,14 @@ function setupImport() {
       if (file) readAndImport(file);
     });
   }
+
+  const fileInput = $('fileInput');
+  if (fileInput) {
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) readAndImport(file);
+    });
+  }
 }
 
 function readAndImport(file) {
