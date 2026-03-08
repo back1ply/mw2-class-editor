@@ -9,31 +9,31 @@
      ===================================================== */
 
   /* Colors - Core */
-  --color-bg-app: #0d0f12;
-  --color-bg-panel: #141820;
-  --color-bg-card: rgba(20, 24, 32, 0.85);
-  --color-bg-slot: rgba(24, 30, 40, 0.9);
-  --color-bg-slot-hover: rgba(30, 38, 50, 0.95);
-  --color-bg-input: rgba(12, 14, 18, 0.7);
+  --color-bg-app: #181916;
+  --color-bg-panel: #11120f;
+  --color-bg-card: #20221c;
+  --color-bg-slot: rgba(0, 0, 0, 0.3);
+  --color-bg-slot-hover: rgba(140, 230, 21, 0.15);
+  --color-bg-input: rgba(0, 0, 0, 0.5);
 
   /* Colors - Text */
-  --color-text-main: #e8eaf0;
-  --color-text-dim: #9aa3b8;
-  --color-text-muted: #6b7280; /* Increased contrast from #576175 */
-  --color-text-disabled: #4b5563;
+  --color-text-main: #dfdbca;
+  --color-text-dim: #929683;
+  --color-text-muted: #6e7061;
+  --color-text-disabled: #4b4d42;
 
   /* Colors - Accents */
-  --color-accent: #4a8cff;
-  --color-accent-glow: rgba(74, 140, 255, 0.2);
-  --color-accent-strong: #60a5fa;
+  --color-accent: #8ce615; /* MW2 Green */
+  --color-accent-glow: rgba(140, 230, 21, 0.2);
+  --color-accent-strong: #9fff2b;
 
-  --color-gold: #d4a843;
-  --color-gold-bright: #edc35e;
-  --color-gold-glow: rgba(212, 168, 67, 0.3);
+  --color-gold: #c2a74e;
+  --color-gold-bright: #e8c961;
+  --color-gold-glow: rgba(194, 167, 78, 0.3);
 
-  --color-success: #34d058;
-  --color-success-dim: #1a8c38;
-  --color-danger: #f85149;
+  --color-success: #8ce615;
+  --color-success-dim: #5c990b;
+  --color-danger: #e63915;
 
   /* Spacing & Layout */
   --space-xs: 4px;
@@ -82,15 +82,15 @@
   --transition-fast: 0.15s ease;
   --transition-normal: 0.25s ease;
 
-  /* Glassmorphism */
-  --glass-blur: blur(12px);
-  --glass-border: 1px solid rgba(255, 255, 255, 0.08);
-  --img-blend: normal;
+  /* Glassmorphism -> Flat Classic */
+  --glass-blur: none;
+  --glass-border: 1px solid var(--border-slot);
+  --img-blend: multiply;
 
   /* Perk tier colors */
-  --perk1-color: #4a8cff;
-  --perk2-color: #f59e0b;
-  --perk3-color: #10b981;
+  --perk1-color: #217fd8; /* Blue */
+  --perk2-color: #c91e1e; /* Red */
+  --perk3-color: #97cc05; /* Yellow/Green */
   --perk-pro-glow: var(--color-gold-glow);
 }
 
@@ -330,41 +330,65 @@ body::after {
 }
 
 /* =====================================================
-   CLASS TABS
+   EDITOR LAYOUT (SIDEBAR & MAIN)
    ===================================================== */
 
-.class-tabs {
+.editor-layout {
   display: flex;
-  gap: 4px;
-  margin-bottom: 16px;
-  overflow-x: auto;
-  padding-bottom: 4px;
+  gap: 24px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.editor-sidebar {
+  width: 180px;
+  flex-shrink: 0;
+}
+
+.editor-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.class-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--color-bg-card);
+  padding: 8px;
+  border: 1px solid var(--border-slot);
+  border-radius: var(--radius-sm);
 }
 
 .class-tab {
-  flex: 1;
-  min-width: 40px;
-  padding: 8px 4px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  color: var(--text-muted);
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 2px;
+  color: var(--color-text-dim);
   font-family: inherit;
-  font-size: 0.82rem;
+  font-size: 0.9rem;
   font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  position: relative;
+  transition: background var(--transition-fast), color var(--transition-fast);
 }
+
 .class-tab:hover {
-  border-color: var(--border-hover);
-  color: var(--text-secondary);
+  background: var(--color-bg-slot-hover);
+  color: var(--color-text-main);
+  text-shadow: 0 0 10px var(--color-accent-glow);
 }
+
 .class-tab.active {
-  background: var(--bg-slot);
-  border-color: var(--accent);
-  color: var(--accent);
-  box-shadow: 0 2px 12px var(--accent-glow);
+  background: var(--color-accent);
+  color: #000;
+  font-weight: 700;
+  text-shadow: none;
+  box-shadow: 0 0 15px var(--color-accent-glow);
 }
 
 /* =====================================================
@@ -379,36 +403,33 @@ body::after {
 }
 
 /* =====================================================
-   LOADOUT SLOTS — The core MW2-style layout
+   LOADOUT SLOTS — MW2 Classic Layout
    ===================================================== */
 
 .loadout {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   margin-bottom: 32px;
-}
-
-.loadout-section {
   background: var(--color-bg-card);
-  backdrop-filter: var(--glass-blur);
-  border: var(--glass-border);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
+  border: 1px solid var(--border-slot);
+  border-radius: var(--radius-md);
   overflow: hidden;
 }
 
-/* Full width for class name row */
-.loadout-section:first-child {
-  grid-column: span 2;
+.loadout-section {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-slot);
+  transition: background 0.2s ease;
+  position: relative;
+}
+
+.loadout-section:last-child {
+  border-bottom: none;
 }
 
 .loadout-section:hover {
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  background: var(--color-bg-slot-hover);
 }
 
 .section-label {
@@ -480,26 +501,12 @@ body::after {
 }
 
 /* Equipment & Tactical side by side */
-.equipment-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  padding: 0;
-  background: transparent;
-  border: none;
+.utility-row {
+  display: flex;
+  gap: 20px;
 }
-.equipment-row:hover {
-  border-color: transparent;
-}
-.equip-col {
-  background: var(--bg-slot);
-  border: 1px solid var(--border-slot);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
-  transition: border-color var(--transition-fast);
-}
-.equip-col:hover {
-  border-color: var(--border-hover);
+.utility-row > .loadout-slot {
+  flex: 1;
 }
 
 /* =====================================================
@@ -545,6 +552,7 @@ body::after {
   background: rgba(255, 255, 255, 0.04);
   padding: 4px;
   flex-shrink: 0;
+  mix-blend-mode: multiply;
   transition: box-shadow var(--transition-normal);
 }
 
