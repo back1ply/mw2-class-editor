@@ -109,6 +109,8 @@ describe('CFG round-trip', () => {
     assert.equal(parsed.primaryAttach2, c.primaryAttach2);
     assert.equal(parsed.primaryCamo, c.primaryCamo);
     assert.equal(parsed.secondaryWeapon, c.secondaryWeapon);
+    assert.equal(parsed.secondaryAttach1, c.secondaryAttach1);
+    assert.equal(parsed.secondaryAttach2, c.secondaryAttach2);
     assert.equal(parsed.secondaryCamo, c.secondaryCamo);
     assert.equal(parsed.equipment, c.equipment);
     assert.equal(parsed.specialGrenade, c.specialGrenade);
