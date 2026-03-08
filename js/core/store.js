@@ -104,7 +104,9 @@ const store = {
    */
   resetCurrent() {
     const idx = this.currentClassIndex;
+    const savedName = this.classes[idx].name;
     this.classes[idx] = getDefaultClass(idx);
+    if (savedName) this.classes[idx].name = savedName;
     events.emit('state:classReset', idx);
   }
 };
