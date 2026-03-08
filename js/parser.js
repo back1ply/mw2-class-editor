@@ -34,210 +34,236 @@ function parseConsoleLog(rawText) {
   // Find the customClasses section(s)
   const lines = rawText.split(/\r?\n/);
 
-  // We need to find lines that match the customClasses tree structure.
-  // The dump can contain many other sections; we only care about customClasses.
+  // If the dump contains the tree structure, prioritize it over historical CFG commands.
+  const hasTree = lines.some(l => l.trim() === 'customClasses');
+  if (!hasTree) {
+    const isCfg = lines.some(l => l.includes('setPlayerData customClasses'));
+    if (isCfg) {
+      return parseCfgLines(lines);
+    }
+  }
 
-  // Strategy: find each customClasses[N] block and parse its contents
-  // Look for patterns like:
-  //   [0]  or  [1]  etc. under "customClasses"
-
+  // Otherwise, proceed with state machine parsing
+  // We ignore indentation entirely and rely on keyword context and brackets.
+  
   let inCustomClasses = false;
-  let customClassesIndent = -1;
   let currentClassIdx = -1;
-  let classBlocks = {}; // idx -> array of lines
+  let expectedClassIndent = -1;
+  let currentSection = ''; // 'weaponSetups', 'perks', 'attachment', etc
+  let currentWeaponIdx = -1;
+  let currentAttachIdx = -1;
+  
+  const classMap = {};
 
   for (let i = 0; i < lines.length; i++) {
     let line = lines[i];
     
-    // Strip leading console timestamps like "[  18215383]" (keep trailing spaces for indentation)
+    // Strip leading console timestamps like "[  18215383]"
     line = line.replace(/^\[\s*\d+\s*\]/, '');
-
-    
     const trimmed = line.trim();
+    if (trimmed.length === 0) continue;
 
     // Detect "customClasses" header
     if (trimmed === 'customClasses') {
       inCustomClasses = true;
-      // Measure indent of "customClasses" keyword
-      customClassesIndent = line.indexOf('customClasses');
       currentClassIdx = -1;
       continue;
     }
 
     if (!inCustomClasses) continue;
 
-    // If we hit a line at the same or less indent as "customClasses" that isn't
-    // part of the tree, we've left the section
-    if (trimmed.length > 0 && !trimmed.startsWith('[') && !trimmed.includes('=')) {
-      const lineIndent = line.search(/\S/);
-      if (lineIndent >= 0 && lineIndent <= customClassesIndent) {
-        inCustomClasses = false;
-        continue;
-      }
-    }
+    // Detect array brackets [N]
+    const bracketMatch = trimmed.match(/^\[(\d+)\]\s*=?\s*(.*)$/);
+    if (bracketMatch) {
+        const idx = parseInt(bracketMatch[1], 10);
+        const inlineValue = bracketMatch[2].trim().replace(/^"|"$/g, '');
+        
+        // We need an unambiguous way to detect when `[N]` is a root class start vs a weaponSetup start.
+        // In the MW2 console dump, root classes `[0]` through `[14]` are indented exactly 6 spaces 
+        // relative to the start of the `customClasses` header. (Actually, counting spaces is what
+        // we wanted to avoid, but we can just use the relative indent of the very first `[N]` we see).
+        
+        const lineIndent = line.search(/\S/);
+        
+        if (!trimmed.includes('=')) {
+            // First ever bracket under customClasses is guaranteed to be [0] of the root class index
+            if (expectedClassIndent === -1 && currentSection === '') {
+                 expectedClassIndent = lineIndent;
+            }
 
-    // Detect [N] at the first child level (class index)
-    const classMatch = trimmed.match(/^\[(\d+)\]\s*$/);
-    if (classMatch) {
-      const lineIndent = line.search(/\S/);
-      // This should be one level deeper than customClasses
-      if (lineIndent > customClassesIndent) {
-        currentClassIdx = parseInt(classMatch[1], 10);
-        if (!classBlocks[currentClassIdx]) {
-          classBlocks[currentClassIdx] = [];
+            if (lineIndent === expectedClassIndent) {
+                 // This is definitively a root class index
+                 currentClassIdx = idx;
+                 currentSection = '';
+                 currentWeaponIdx = -1;
+                 currentAttachIdx = -1;
+                 if (!classMap[currentClassIdx]) {
+                     classMap[currentClassIdx] = getDefaultClass(currentClassIdx);
+                 }
+                 continue;
+            }
+        }
+
+        if (currentSection === 'weaponSetups' && !trimmed.includes('=')) {
+            currentWeaponIdx = idx;
+        } else if (currentSection === 'attachment') {
+            currentAttachIdx = idx;
+            if (inlineValue) {
+               // Fast assignment: attachment [0] = silencer
+               const classData = classMap[currentClassIdx];
+               if (classData && currentWeaponIdx === 0) {
+                   if (currentAttachIdx === 0) classData.primaryAttach1 = inlineValue;
+                   if (currentAttachIdx === 1) classData.primaryAttach2 = inlineValue;
+               } else if (classData && currentWeaponIdx === 1) {
+                   if (currentAttachIdx === 0) classData.secondaryAttach1 = inlineValue;
+                   if (currentAttachIdx === 1) classData.secondaryAttach2 = inlineValue;
+               }
+            }
+        } else if (currentSection === 'perks') {
+            if (inlineValue) {
+               // Fast assignment: perks [0] = frag_grenade_mp
+               const classData = classMap[currentClassIdx];
+               if (classData) {
+                   if (idx === 0) classData.equipment = inlineValue;
+                   if (idx === 1) classData.perk1 = inlineValue;
+                   if (idx === 2) classData.perk2 = inlineValue;
+                   if (idx === 3) classData.perk3 = inlineValue;
+                   if (idx === 4) classData.deathstreak = inlineValue;
+               }
+            }
         }
         continue;
-      }
     }
 
-    // Accumulate lines for the current class block
-    if (currentClassIdx >= 0 && currentClassIdx < NUM_CLASSES) {
-      classBlocks[currentClassIdx].push(line);
+    // If we have a class context, watch for sections and assignments
+    if (currentClassIdx >= 0) {
+        const classData = classMap[currentClassIdx];
+        
+        // Key-Value Assignments
+        const kvMatch = trimmed.match(/^(\w+)\s*=\s*(.+)$/);
+        if (kvMatch) {
+            const key = kvMatch[1];
+            const val = kvMatch[2].trim().replace(/^"|"$/g, '');
+            
+            if (currentSection === '') {
+                // Root class properties
+                if (key === 'name') classData.name = val;
+                if (key === 'specialGrenade') classData.specialGrenade = val;
+            } else if (currentSection === 'weaponSetups' && currentWeaponIdx >= 0) {
+                // `weapon` and `camo` can appear plainly.
+                if (currentWeaponIdx === 0) {
+                    if (key === 'weapon') classData.primaryWeapon = val;
+                    if (key === 'camo') classData.primaryCamo = val;
+                } else if (currentWeaponIdx === 1) {
+                    if (key === 'weapon') classData.secondaryWeapon = val;
+                    if (key === 'camo') classData.secondaryCamo = val;
+                }
+            }
+            continue;
+        }
+
+        // Section Headers (objects without an equals sign)
+        const headerMatch = trimmed.match(/^(\w+)\s*$/);
+        if (headerMatch) {
+            const secName = headerMatch[1];
+            // Known schema sections in MW2
+            if (secName === 'weaponSetups') {
+                currentSection = 'weaponSetups';
+                currentWeaponIdx = -1;
+                currentAttachIdx = -1;
+            } else if (secName === 'perks') {
+                currentSection = 'perks';
+            } else if (secName === 'attachment') {
+                currentSection = 'attachment';
+                currentAttachIdx = -1;
+            } 
+        }
     }
   }
 
-  // Now parse each class block
+  // Populate numeric result array
   for (let idx = 0; idx < NUM_CLASSES; idx++) {
-    const classData = getDefaultClass(idx);
-    const blockLines = classBlocks[idx];
-
-    if (!blockLines || blockLines.length === 0) {
-      result.push(classData);
-      continue;
-    }
-
-    try {
-      const parsed = parseClassBlock(blockLines);
-
-      // Map parsed data to our class structure
-
-
-
-      if (parsed.name !== undefined) {
-        // Strip surrounding quotes if present
-        classData.name = parsed.name.replace(/^"|"$/g, '');
-      }
-
-      // Weapon setups
-      if (parsed.weaponSetups) {
-        // Handle both collapsed (weaponSetups.weapon) and nested (weaponSetups['0'].weapon) structures
-        const ws0 = parsed.weaponSetups['0'] || (parsed.weaponSetups.weapon ? parsed.weaponSetups : null);
-        if (ws0) {
-          if (ws0.weapon) classData.primaryWeapon = ws0.weapon;
-          if (ws0.attachment) {
-            const att = ws0.attachment;
-            if (att['0']) classData.primaryAttach1 = att['0'];
-            if (att['1']) classData.primaryAttach2 = att['1'];
-          }
-          if (ws0.camo) classData.primaryCamo = ws0.camo;
-        }
-        
-        const ws1 = parsed.weaponSetups['1'];
-        if (ws1) {
-          if (ws1.weapon) classData.secondaryWeapon = ws1.weapon;
-          if (ws1.attachment) {
-            const att = ws1.attachment;
-            if (att['0']) classData.secondaryAttach1 = att['0'];
-            if (att['1']) classData.secondaryAttach2 = att['1'];
-          }
-          if (ws1.camo) classData.secondaryCamo = ws1.camo;
-        }
-      }
-
-
-
-      // Perks (overloaded array)
-      if (parsed.perks) {
-        if (parsed.perks['0']) classData.equipment = parsed.perks['0'];
-        if (parsed.perks['1']) classData.perk1 = parsed.perks['1'];
-        if (parsed.perks['2']) classData.perk2 = parsed.perks['2'];
-        if (parsed.perks['3']) classData.perk3 = parsed.perks['3'];
-        if (parsed.perks['4']) classData.deathstreak = parsed.perks['4'];
-      }
-
-      // Special grenade (separate field)
-      if (parsed.specialGrenade) {
-        classData.specialGrenade = parsed.specialGrenade;
-      }
-    } catch (e) {
-      errors.push(`Error parsing class ${idx}: ${e.message}`);
-    }
-
-    result.push(classData);
+      result.push(classMap[idx] || getDefaultClass(idx));
   }
 
   return {
     classes: result,
-    count: Object.keys(classBlocks).length,
+    count: Object.keys(classMap).length,
     errors
   };
 }
 
 /**
- * Parse a block of lines for a single class into a nested object.
- * Handles the indented tree format with [N] array indices and key = value pairs.
+ * Parses raw .cfg files that contain setPlayerData customClasses commands.
  */
-function parseClassBlock(lines) {
-  const obj = {};
+function parseCfgLines(lines) {
+  const errors = [];
+  const classMap = {};
 
-  // Track the current path via indentation
-  // Each line is either:
-  //   key = value            (flat assignment)
-  //   key                    (object start, like "perks" or "weaponSetups")
-  //   [N] = value            (array element assignment)
-  //   [N]                    (array element start, sub-object)
+  for (let line of lines) {
+    line = line.trim();
+    if (!line.startsWith('setPlayerData customClasses')) continue;
 
-  const stack = [{ indent: -1, obj: obj }];
+    const parts = line.split(' ');
+    if (parts.length < 5) continue;
 
-  for (const line of lines) {
-    if (line.trim().length === 0) continue;
+    const idx = parseInt(parts[2], 10);
+    if (isNaN(idx) || idx < 0 || idx >= NUM_CLASSES) continue;
 
-    const indent = line.search(/\S/);
-    const trimmed = line.trim();
-
-    // Pop stack to find parent
-    while (stack.length > 1 && indent <= stack[stack.length - 1].indent) {
-      stack.pop();
+    if (!classMap[idx]) {
+      classMap[idx] = getDefaultClass(idx);
     }
+    const classData = classMap[idx];
 
-    const parent = stack[stack.length - 1].obj;
+    const field = parts[3];
 
-    // Case 1: [N] = value  (array element with direct value)
-    const arrValMatch = trimmed.match(/^\[(\d+)\]\s*=\s*(.+)$/);
-    if (arrValMatch) {
-      const idx = arrValMatch[1];
-      const val = arrValMatch[2].trim();
-      parent[idx] = val;
-      continue;
-    }
-
-    // Case 2: [N]  (array element start — sub-object)
-    const arrObjMatch = trimmed.match(/^\[(\d+)\]\s*$/);
-    if (arrObjMatch) {
-      const idx = arrObjMatch[1];
-      if (!parent[idx]) parent[idx] = {};
-      stack.push({ indent, obj: parent[idx] });
-      continue;
-    }
-
-    // Case 3: key = value  (flat assignment)
-    const kvMatch = trimmed.match(/^(\w+)\s*=\s*(.+)$/);
-    if (kvMatch) {
-      const key = kvMatch[1];
-      const val = kvMatch[2].trim();
-      parent[key] = val;
-      continue;
-    }
-
-    // Case 4: key  (sub-object start, like "perks" or "weaponSetups" or "attachment")
-    const keyMatch = trimmed.match(/^(\w+)\s*$/);
-    if (keyMatch) {
-      const key = keyMatch[1];
-      if (!parent[key]) parent[key] = {};
-      stack.push({ indent, obj: parent[key] });
-      continue;
+    if (field === 'name') {
+       const nameMatch = line.match(/name\s+"?(.*?)"?$/);
+       if (nameMatch) classData.name = nameMatch[1];
+    } else if (field === 'weaponSetups') {
+       const wSet = parts[4];
+       const prop = parts[5];
+       
+       if (wSet === '0') {
+          if (prop === 'weapon') classData.primaryWeapon = parts[6];
+          else if (prop === 'camo') classData.primaryCamo = parts[6];
+          else if (prop === 'attachment') {
+             const attIdx = parts[6];
+             const attVal = parts[7];
+             if (attIdx === '0') classData.primaryAttach1 = attVal;
+             if (attIdx === '1') classData.primaryAttach2 = attVal;
+          }
+       } else if (wSet === '1') {
+          if (prop === 'weapon') classData.secondaryWeapon = parts[6];
+          else if (prop === 'camo') classData.secondaryCamo = parts[6];
+          else if (prop === 'attachment') {
+             const attIdx = parts[6];
+             const attVal = parts[7];
+             if (attIdx === '0') classData.secondaryAttach1 = attVal;
+             if (attIdx === '1') classData.secondaryAttach2 = attVal;
+          }
+       }
+    } else if (field === 'perks') {
+       const pIdx = parts[4];
+       const pVal = parts[5];
+       if (pIdx === '0') classData.equipment = pVal;
+       if (pIdx === '1') classData.perk1 = pVal;
+       if (pIdx === '2') classData.perk2 = pVal;
+       if (pIdx === '3') classData.perk3 = pVal;
+       if (pIdx === '4') classData.deathstreak = pVal;
+    } else if (field === 'specialGrenade') {
+       classData.specialGrenade = parts[4];
     }
   }
 
-  return obj;
+  const result = [];
+  for (let i = 0; i < NUM_CLASSES; i++) {
+    result.push(classMap[i] || getDefaultClass(i));
+  }
+
+  return {
+    classes: result,
+    count: Object.keys(classMap).length,
+    errors
+  };
 }

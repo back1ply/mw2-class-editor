@@ -223,7 +223,7 @@ const DEATHSTREAKS = [
   { id: "specialty_yourturn", name: "Copycat" },
 ];
 
-// MW2 color codes: ^0 through ^7
+// MW2 color codes: ^0 through ^9 and ^:
 const COLOR_CODES = {
   0: "#000000", // Black
   1: "#ff3131", // Red
@@ -233,6 +233,9 @@ const COLOR_CODES = {
   5: "#00ffff", // Cyan
   6: "#ff69b4", // Pink/Magenta
   7: "#ffffff", // White
+  8: "#00a09e", // Team Color (Teal Fallback)
+  9: "#808080", // Grey
+  ':': "#ff00ff" // Rainbow (Magenta Fallback)
 };
 
 // Build a flat set of all known weapon IDs for import validation
@@ -260,7 +263,7 @@ const ALL_DEATHSTREAK_IDS = new Set(DEATHSTREAKS.map((d) => d.id));
 const NUM_CLASSES = 15;
 
 function getDefaultClass(i) {
-  return {
+  return JSON.parse(JSON.stringify({
     name: `Custom Class ${i + 1}`,
     primaryWeapon: "m4",
     primaryAttach1: "none",
@@ -276,7 +279,7 @@ function getDefaultClass(i) {
     perk2: "specialty_bulletdamage",
     perk3: "specialty_heartbreaker",
     deathstreak: "specialty_combathigh",
-  };
+  }));
 }
 
 // Map UI element IDs to state object keys

@@ -25,9 +25,11 @@ const view = {
     for (let i = 0; i < NUM_CLASSES; i++) {
       const tab = document.createElement('button');
       tab.className = 'class-tab' + (i === store.currentClassIndex ? ' active' : '');
-      tab.textContent = i + 1;
+      const rawName = store.classes[i].name;
+      const cleanName = rawName.replace(/\^[\d:]/g, '').trim();
+      tab.innerHTML = cleanName ? formatMW2Colors(rawName) : `Custom Class ${i + 1}`;
       tab.setAttribute('role', 'tab');
-      tab.title = store.classes[i].name.replace(/\^\d/g, '');
+      tab.id = `classTabBtn${i}`;
       tab.onclick = () => store.switchClass(i);
       container.appendChild(tab);
     }
@@ -65,7 +67,15 @@ const view = {
       generateOutput();
     });
 
-    events.on('state:changed', () => {
+    events.on('state:changed', (e) => {
+      if (e && e.field === 'name') {
+        const btn = $(`classTabBtn${e.index}`);
+        if (btn) {
+          const rawName = e.value;
+          const cleanName = rawName.replace(/\^[\d:]/g, '').trim();
+          btn.innerHTML = cleanName ? formatMW2Colors(rawName) : `Custom Class ${e.index + 1}`;
+        }
+      }
       generateOutput();
       updateColorPreview();
       this.updateIcons();

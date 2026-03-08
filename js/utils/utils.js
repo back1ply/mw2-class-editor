@@ -55,3 +55,36 @@ const events = {
     }
   }
 };
+
+/**
+ * Formats MW2 color codes (^1, ^2, etc.) into colored HTML spans.
+ * Automatically escapes HTML to prevent XSS.
+ * @param {string} text - The raw text containing ^ color codes.
+ * @returns {string} The HTML string with color spans.
+ */
+function formatMW2Colors(text) {
+  if (!text) return '';
+  const parts = text.split(/(\^[\d:])/);
+  let html = '';
+  let currentColor = ''; // default
+
+  for (const part of parts) {
+    const codeMatch = part.match(/^\^([\d:])$/);
+    if (codeMatch) {
+      const code = codeMatch[1];
+      if (typeof COLOR_CODES !== 'undefined' && COLOR_CODES[code]) {
+         currentColor = COLOR_CODES[code];
+      }
+      continue;
+    }
+    if (part.length > 0) {
+      const safeText = escapeHTML(part);
+      if (currentColor) {
+        html += `<span style="color: ${currentColor}">${safeText}</span>`;
+      } else {
+        html += safeText;
+      }
+    }
+  }
+  return html;
+}
