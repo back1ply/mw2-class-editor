@@ -376,32 +376,34 @@ body::after {
 .class-tab {
   width: 100%;
   text-align: left;
-  padding: 10px 12px;
+  padding: 9px 12px 9px 14px;
   background: transparent;
   border: none;
+  border-left: 3px solid transparent;
   border-radius: 2px;
-  color: var(--color-text-dim);
+  color: var(--color-text-muted);
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
   cursor: pointer;
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: all var(--transition-fast);
 }
 
 .class-tab:hover {
-  background: var(--color-bg-slot-hover);
+  background: rgba(140, 230, 21, 0.07);
   color: var(--color-text-main);
-  text-shadow: 0 0 10px var(--color-accent-glow);
+  border-left-color: rgba(140, 230, 21, 0.3);
 }
 
 .class-tab.active {
-  background: var(--color-accent);
-  color: #000;
+  background: rgba(140, 230, 21, 0.12);
+  color: var(--color-accent);
+  border-left-color: var(--color-accent);
   font-weight: 700;
-  text-shadow: none;
-  box-shadow: 0 0 15px var(--color-accent-glow);
+  text-shadow: 0 0 12px var(--color-accent-glow);
+  box-shadow: none;
 }
 
 /* =====================================================
@@ -428,6 +430,7 @@ body::after {
   border: 1px solid var(--border-slot);
   border-radius: var(--radius-md);
   overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 .loadout-section {
@@ -441,17 +444,28 @@ body::after {
   border-bottom: none;
 }
 
+.weapon-card.highlight {
+  background: linear-gradient(
+    180deg,
+    rgba(140, 230, 21, 0.04) 0%,
+    transparent 60%
+  );
+}
+
 .loadout-section:hover {
-  background: var(--color-bg-slot-hover);
+  background: rgba(140, 230, 21, 0.04);
 }
 
 .section-label {
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 2.5px;
+  letter-spacing: 3px;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 10px;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+  padding-left: 8px;
+  border-left: 2px solid var(--color-accent);
+  line-height: 1;
 }
 
 /* Weapon slot: icon + details side by side */
