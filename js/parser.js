@@ -267,3 +267,8 @@ function parseCfgLines(lines) {
     errors
   };
 }
+
+// Allow requiring in Node.js tests without breaking browser usage
+if (typeof module !== 'undefined') {
+  module.exports = { parseConsoleLog, parseCfgLines };
+}
